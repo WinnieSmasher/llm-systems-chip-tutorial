@@ -8,7 +8,7 @@
 2. 它解决什么问题，不解决什么问题？
 3. 如果我要动手，第一步该看哪个项目、跑哪段代码？
 
-![LLM lifecycle](assets/llm-lifecycle.svg)
+![LLM systems learning map](assets/image2-llm-systems-cover.png)
 
 ## 先看哪几章
 
@@ -32,6 +32,7 @@
 
 - [00. 学习地图](docs/00-learning-map.md)
 - [00A. 资料来源地图](docs/00-source-map.md)
+- [00B. 自我 Review 记录](docs/00-self-review.md)
 - [01. CUDA、ZLUDA 与昇腾 CANN](docs/01-hardware-stacks.md)
 - [02. PyTorch、ONNX、safetensors 和 OM](docs/02-model-formats.md)
 - [03. Hugging Face 项目从哪里开始](docs/03-huggingface-workflow.md)
@@ -40,6 +41,7 @@
 - [06. 集成电路与 AI 芯片学习路线](docs/06-chip-domain-roadmap.md)
 - [07. 练手项目与简历表达](docs/07-practice-projects.md)
 - [08. Hands-on Labs](docs/08-hands-on-labs.md)
+- [09. Source Reading Notes](docs/09-source-reading-notes.md)
 - [术语表](docs/99-glossary.md)
 - [参考资料](docs/references.md)
 - [后续项目清单](PROJECTS.md)

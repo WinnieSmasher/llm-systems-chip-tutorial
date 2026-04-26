@@ -24,3 +24,6 @@
 - [ ] 整理大模型系统方向简历 bullet。
 - [ ] 整理芯片/异构计算方向简历 bullet。
 - [ ] 整理开源贡献型经历模板。
+- [ ] 补充真实 vLLM benchmark 结果。
+- [ ] 补充 CUDA / CANN API 对照表。
+- [ ] 补充 ONNX -> ATC -> OM 实机流程。
