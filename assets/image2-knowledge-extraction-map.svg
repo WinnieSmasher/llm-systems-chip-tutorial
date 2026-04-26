@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
   <rect width="1400" height="900" fill="#f8fafc"/>
-  <text x="700" y="70" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="42" font-weight="700" fill="#111827">Star Sources -> Knowledge Extraction -> Tutorial Chapters</text>
-  <text x="700" y="112" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="20" fill="#475569">use starred repos as raw material, not as the public tutorial structure</text>
+  <text x="700" y="70" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="42" font-weight="700" fill="#111827">Open Source Inputs -> Knowledge Extraction -> Tutorial Chapters</text>
+  <text x="700" y="112" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="20" fill="#475569">use source projects as raw material, not as the public tutorial structure</text>
 
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
@@ -11,7 +11,7 @@
 
   <g font-family="Inter,Segoe UI,Arial">
     <rect x="70" y="190" width="260" height="150" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
-    <text x="200" y="232" text-anchor="middle" font-size="25" font-weight="700" fill="#1e3a8a">Star Sources</text>
+    <text x="200" y="232" text-anchor="middle" font-size="25" font-weight="700" fill="#1e3a8a">Source Inputs</text>
     <text x="200" y="270" text-anchor="middle" font-size="18" fill="#1e40af">public projects</text>
     <text x="200" y="302" text-anchor="middle" font-size="16" fill="#334155">docs, code, issues, examples</text>
 

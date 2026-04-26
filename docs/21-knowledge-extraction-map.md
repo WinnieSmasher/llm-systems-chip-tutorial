@@ -1,10 +1,21 @@
-# 21. 从 Starred Repos 提取知识地图
+# 21. 开源项目知识提炼地图
 
-这一章不展示收藏夹。GitHub star 只是原材料，真正有用的是从里面提取出的学习主题、工程问题和可验证练习。
+这一章讲怎么把开源项目读成教程材料。GitHub star、论文链接、博客和 issue 都只是原材料，真正有用的是从里面提取出的学习主题、工程问题和可验证练习。
 
-我把这些项目按“能学到什么”重新分成七类。每一类都要落到一个输出物：概念图、实验记录、源码阅读笔记、测试清单或贡献计划。
+读开源项目时，不要从“这个 repo 有多少 star”开始。先问它能教会你什么，再决定它应该进入哪一章。
 
-![Starred repo knowledge map](../assets/image2-star-knowledge-map.svg)
+![Knowledge extraction map](../assets/image2-knowledge-extraction-map.svg)
+
+## 提炼规则
+
+一个项目只有满足下面至少一条，才适合进入教程主线：
+
+- 能解释一个系统概念，例如 KV cache、tool boundary、memory coalescing。
+- 能变成一个小实验，例如 chunking 对召回的影响、不同并发下的 TTFT。
+- 能提出一个源码阅读问题，例如状态机在哪里、PDF parsing 失败在哪里。
+- 能形成一个工程 checklist，例如 benchmark scenario、安全边界、数据清洗规则。
+
+如果一个项目只是“看起来很酷”，但不能转成概念、实验、问题或 checklist，就放在参考资料里，不要放进教程主线。
 
 ## 1. Agent runtime
 
@@ -28,7 +39,7 @@
 
 - [15. RAG 与 Agent 工程](15-rag-agent-engineering.md)
 - [19. 大模型安全与上线运维](19-safety-ops.md)
-- [24. Source Reading Queue](24-source-reading-queue.md)
+- [23. 源码阅读题单](23-source-reading-questions.md)
 
 验证方式：
 
@@ -209,7 +220,7 @@ star 列表里也会混进账号、代理、中转、注册、激活、抢票、
 
 ## 最后怎么用这张图
 
-以后再 star 项目时，不要只问“这个项目火不火”。问四个问题：
+以后再读开源项目时，不要只问“这个项目火不火”。问四个问题：
 
 1. 它能解释哪个系统概念？
 2. 它能不能变成一个可运行实验？

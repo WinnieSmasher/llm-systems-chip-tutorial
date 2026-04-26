@@ -1,17 +1,31 @@
 # 00. 学习地图
 
-这份教程按一条工程链路组织，不按名词表组织。
+这份教程按工程学习顺序组织，不按名词表组织。主线是：
 
 ```text
-Hugging Face 模型
-  -> PyTorch/Transformers 推理 baseline
-  -> 数据清洗和评测集
-  -> SFT / LoRA / QLoRA / DPO
-  -> 量化和推理优化
+模型来源
+  -> 模型格式
+  -> 数据清洗
+  -> 微调和评测
+  -> 推理服务
+  -> 硬件后端
   -> RAG / Agent 应用
-  -> CUDA / CANN / vLLM 等部署后端
-  -> 安全、监控和下一轮迭代
+  -> 安全和复盘
 ```
+
+读的时候不要急着追最新工具。先把每一层的问题说清楚，再看对应项目和源码。
+
+## 课程结构
+
+| 阶段 | 核心问题 | 对应章节 | 最小输出 |
+| --- | --- | --- | --- |
+| 1. 模型在哪里 | 模型 repo 里有哪些文件，tokenizer 和 chat template 为什么重要 | [02](02-model-formats.md), [03](03-huggingface-workflow.md) | 模型文件结构笔记 |
+| 2. 怎么改模型 | SFT、LoRA、QLoRA、DPO 分别在改什么 | [04](04-training-finetuning-alignment.md), [14](14-data-engineering.md) | 一份 toy 数据和 smoke test |
+| 3. 怎么判断变好 | baseline、评测集、bad case 怎么固定 | [13](13-evaluation-benchmark.md) | 20 条固定评测样例 |
+| 4. 怎么跑得快 | prefill、decode、KV cache、batching、量化是什么关系 | [05](05-inference-optimization.md), [10](10-vllm-benchmark-guide.md), [16](16-quantization.md), [17](17-advanced-inference.md) | 一份 benchmark 记录 |
+| 5. 跑在哪种硬件上 | CUDA、ZLUDA、CANN、AscendCL、ONNX、OM 的边界在哪里 | [01](01-hardware-stacks.md), [06](06-chip-domain-roadmap.md), [11](11-cuda-cann-api-map.md), [12](12-onnx-atc-om-flow.md) | 一张硬件/格式边界图 |
+| 6. 怎么变成应用 | RAG、Agent、tool call、memory 怎么接到系统里 | [15](15-rag-agent-engineering.md), [19](19-safety-ops.md) | 一组 RAG 失败样例 |
+| 7. 怎么持续学习 | 论文、源码、开源项目如何转成练习 | [20](20-paper-reading-roadmap.md), [21](21-knowledge-extraction-map.md), [22](22-eight-week-learning-route.md), [23](23-source-reading-questions.md) | 一页源码阅读笔记 |
 
 ## 第一层：模型从哪里来
 
@@ -64,8 +78,10 @@ Hugging Face 模型
 对应章节：
 
 - [05. 推理优化和部署](05-inference-optimization.md)
+- [10. vLLM Benchmark Guide](10-vllm-benchmark-guide.md)
 - [16. 量化专题](16-quantization.md)
 - [17. 高级推理优化](17-advanced-inference.md)
+- [18. 分布式训练与并行策略](18-distributed-training.md)
 
 ## 第五层：模型跑在哪种硬件生态上
 
@@ -80,7 +96,8 @@ Hugging Face 模型
 
 - [01. CUDA、ZLUDA 与昇腾 CANN](01-hardware-stacks.md)
 - [06. 集成电路与 AI 芯片学习路线](06-chip-domain-roadmap.md)
-- [18. 分布式训练与并行策略](18-distributed-training.md)
+- [11. CUDA / CANN API Map](11-cuda-cann-api-map.md)
+- [12. ONNX -> ATC -> OM -> AscendCL](12-onnx-atc-om-flow.md)
 
 ## 第六层：模型怎么变成应用
 
@@ -91,6 +108,22 @@ Hugging Face 模型
 - [15. RAG 与 Agent 工程](15-rag-agent-engineering.md)
 - [19. 大模型安全与上线运维](19-safety-ops.md)
 - [20. 论文阅读路线](20-paper-reading-roadmap.md)
+
+## 第七层：怎么读开源和论文
+
+开源项目不是目录装饰。每个项目都要回答一个问题：
+
+- 它解释了哪个系统概念？
+- 它有没有可复现的实验？
+- 它的源码能不能拆成一个阅读题？
+- 它能不能变成一次小贡献？
+
+对应章节：
+
+- [21. 开源项目知识提炼地图](21-knowledge-extraction-map.md)
+- [22. 八周能力路线](22-eight-week-learning-route.md)
+- [23. 源码阅读题单](23-source-reading-questions.md)
+- [09. Source Reading Notes](09-source-reading-notes.md)
 
 ## 最小实践路线
 

@@ -1,8 +1,8 @@
-# 22. Star 驱动的学习路线
+# 22. 八周能力路线
 
-这条路线不是“每周 clone 几个 repo”。它把 starred repos 背后的知识拆成 8 周训练，每周都要交付一个小成果。
+这条路线不是“每周 clone 几个 repo”。它把 LLM systems / AI infra / chip learning 拆成 8 周训练，每周都要交付一个小成果。
 
-![Star-driven learning route](../assets/image2-star-learning-route.svg)
+![Eight week capability roadmap](../assets/image2-eight-week-roadmap.svg)
 
 ## 第 0 周：建立资料入口
 
@@ -172,7 +172,7 @@
 
 参考来源：Web security、OSINT、reverse engineering 资料，以及风险隔离类工具作为反面样本。
 
-## 第 8 周：整理成公开成果
+## 第 8 周：整理成公开教程成果
 
 能力目标：
 

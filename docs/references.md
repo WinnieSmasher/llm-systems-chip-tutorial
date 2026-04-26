@@ -63,9 +63,9 @@
 - Milvus overview: https://milvus.io/docs/overview.md
 - OWASP Top 10 for LLM Applications: https://genai.owasp.org/llm-top-10/
 
-## Starred Repo 参考项目来源
+## 开源项目参考来源
 
-Starred repositories 只作为素材来源，不作为教程目录。这里按知识主题保留少量代表项目，真正要沉淀的是概念、源码阅读问题、实验和练习项目。
+开源项目只作为素材来源，不作为教程目录。这里按知识主题保留少量代表项目，真正要沉淀的是概念、源码阅读问题、实验和练习项目。
 
 ### Agent Runtime
 

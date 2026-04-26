@@ -1,114 +1,122 @@
 # LLM Systems and AI Chips Tutorial
 
-## 教程说明
+这是一个面向 LLM systems、AI infra 和 AI chips 的自学教程。
 
-这个仓库用来整理 LLM 系统工程和 AI 芯片相关的学习笔记。
-
-内容按一条工程链路写：
-
-```text
-模型从哪里来
-  -> 数据怎么清洗和评测
-  -> 模型怎么微调
-  -> 推理服务怎么部署
-  -> 性能瓶颈怎么分析
-  -> CUDA / ZLUDA / CANN 这些硬件生态放在哪里
-  -> 最后怎么形成实验记录、源码阅读笔记和开源贡献计划
-```
-
-仓库里的文档不是一次性写完的教材。更准确地说，它是一份学习手册：读一章，跑一个小实验，补一条笔记，再回头改目录。
+它不追求把所有名词塞进一个仓库。这里的目标更具体：读者能沿着一条工程链路，把模型、数据、评测、推理服务、硬件后端、RAG/Agent 和源码阅读连起来，并且每学完一段都留下一个可检查的输出物。
 
 ![LLM systems learning map](assets/image2-llm-systems-cover.png)
 
-## 适合谁读
+## 这份教程怎么用
 
-适合这些情况：
+每个主题按同一套方式学习：
 
-- 想从 Hugging Face 模型一路学到推理服务和系统优化。
+```text
+先读概念
+  -> 跑一个最小脚本或做一张对照表
+  -> 记录失败样例
+  -> 写一页笔记
+  -> 回头检查自己能不能解释清楚
+```
+
+不要只收藏链接，也不要只背术语。这个仓库默认你会边读边改，最好每一周都有一个小产出：一张图、一份 benchmark、一页论文笔记、一个源码阅读问题，或者一个可以继续做的 issue/PR 方向。
+
+## 适合谁
+
+- 想从 Hugging Face 模型入门，继续学到推理服务和系统优化。
 - 想分清 CUDA、ZLUDA、CANN、ONNX、vLLM、TensorRT-LLM 这些词各自在哪一层。
-- 想做一点能放到 GitHub 上的 LLM systems / AI infra / chip learning 项目。
-- 想把收藏的开源项目变成学习路线，而不是只停在 star 列表。
+- 想做一点能放到 GitHub 上的 LLM systems / AI infra / chip learning 练习。
+- 想把开源项目阅读变成学习路线，而不是停在 repo 清单。
 
-不适合这些情况：
+不适合只想找速成面经、现成简历 bullet 或灰色工具用法的人。
 
-- 想找速成面经。
-- 想直接复制简历 bullet。
-- 想找现成大模型训练平台。
-- 想学高频交易、投机策略或灰色工具用法。
+## 课程大纲
 
-## 建议读法
+| 单元 | 学什么 | 读完要留下什么 |
+| --- | --- | --- |
+| 0. 课程地图 | 学习顺序、资料来源、怎么自检 | 一份自己的学习路线 |
+| 1. 硬件和模型格式 | CUDA、ZLUDA、CANN、ONNX、safetensors、OM | 一张硬件/格式对照表 |
+| 2. Hugging Face 到微调 | tokenizer、chat template、SFT、LoRA、QLoRA、DPO | 一个最小推理或 LoRA smoke test |
+| 3. 评测和数据 | benchmark、数据清洗、固定评测集 | 20 条小评测样例和清洗报告 |
+| 4. 推理和部署 | vLLM、KV cache、量化、并发压测 | 一份 vLLM benchmark 记录 |
+| 5. RAG 和 Agent | chunking、retrieval、tool boundary、安全边界 | 一组 RAG 失败样例和安全 checklist |
+| 6. 源码阅读和开源提炼 | 从开源项目提取概念、问题和练习 | 一页 source reading note |
+| 7. 论文阅读 | systems 论文怎么读成工程问题 | 一页 paper note |
 
-第一次读不要按目录从头到尾读。先按自己的目标选一条线。
+## 推荐阅读顺序
 
-### 1. 只想分清硬件和模型格式
+### 第一周：把地图看明白
 
-先读：
+- [00. 学习地图](docs/00-learning-map.md)
+- [00A. 资料来源地图](docs/00-source-map.md)
+- [术语表](docs/99-glossary.md)
+
+读完后，先写下自己最想补的三件事：模型微调、推理部署、硬件生态、RAG/Agent、源码阅读，选其中一条继续。
+
+### 第二周：模型和硬件不要混
 
 - [01. CUDA、ZLUDA 与昇腾 CANN](docs/01-hardware-stacks.md)
 - [02. PyTorch、ONNX、safetensors 和 OM](docs/02-model-formats.md)
 - [11. CUDA / CANN API Map](docs/11-cuda-cann-api-map.md)
 - [12. ONNX -> ATC -> OM -> AscendCL](docs/12-onnx-atc-om-flow.md)
 
-读完以后，至少要能解释：
+输出物：一张 `CUDA / ZLUDA / CANN / ONNX / OM` 边界图。
 
-- CUDA 为什么不是“所有 GPU 通用接口”。
-- ZLUDA 为什么不是华为昇腾生态。
-- ONNX 和 `.om` 文件分别在哪一步出现。
-
-### 2. 想做一个 Hugging Face 小项目
-
-先读：
+### 第三周：跑通 Hugging Face baseline
 
 - [03. Hugging Face 项目从哪里开始](docs/03-huggingface-workflow.md)
 - [04. SFT、LoRA、QLoRA、DPO 到底在训什么](docs/04-training-finetuning-alignment.md)
-- [13. 模型评测与 Benchmark](docs/13-evaluation-benchmark.md)
 - [14. 数据工程与数据清洗](docs/14-data-engineering.md)
 
-配套练习：
+配套脚本：
 
-- 跑 `examples/minimal_inference.py`。
-- 用 `examples/clean_sft_jsonl.py` 清洗一份小数据。
-- 用 `examples/evaluate_predictions.py` 做一个固定评测集。
+```bash
+python examples/minimal_inference.py
+python examples/clean_sft_jsonl.py --input raw_sft.jsonl --output temp/clean_sft.jsonl --report temp/clean_sft.report.json
+```
 
-### 3. 想学推理优化和部署
+输出物：一次最小推理记录和一份数据清洗报告。
 
-先读：
+### 第四周：评测和推理服务
 
 - [05. 推理优化和部署](docs/05-inference-optimization.md)
 - [10. vLLM Benchmark Guide](docs/10-vllm-benchmark-guide.md)
+- [13. 模型评测与 Benchmark](docs/13-evaluation-benchmark.md)
 - [16. 量化专题](docs/16-quantization.md)
 - [17. 高级推理优化](docs/17-advanced-inference.md)
 - [18. 分布式训练与并行策略](docs/18-distributed-training.md)
 
-配套练习：
+配套脚本：
 
-- 用 `examples/vllm_client.py` 调一个 OpenAI-compatible 服务。
-- 用 `examples/benchmark_openai_server.py` 记录 TTFT、TPOT 和 tokens/s。
-- 用 `examples/kv_cache_sweep.py` 估算不同上下文长度的 KV cache 显存。
+```bash
+python examples/estimate_kv_cache.py
+python examples/kv_cache_sweep.py --output benchmarks/kv-cache-sweep.csv
+python examples/benchmark_openai_server.py --model Qwen/Qwen2.5-0.5B-Instruct --requests 16 --concurrency 4 --max-tokens 128
+```
 
-### 4. 想做 RAG、Agent 或文档智能
+输出物：一份 benchmark scenario 和结果表。
 
-先读：
+### 第五周：RAG、Agent 和安全边界
 
 - [15. RAG 与 Agent 工程](docs/15-rag-agent-engineering.md)
 - [19. 大模型安全与上线运维](docs/19-safety-ops.md)
 - [20. 论文阅读路线](docs/20-paper-reading-roadmap.md)
 
-配套练习：
+配套脚本：
 
-- 用 `examples/chunk_text_preview.py` 看 chunking 结果。
-- 选一篇论文，用 [论文笔记模板](papers/README.md) 写一页笔记。
-- 记录一次检索失败或引用错误，而不是只记录成功样例。
+```bash
+python examples/chunk_text_preview.py --input docs/01-hardware-stacks.md --output temp/hardware_chunks.jsonl
+```
 
-### 5. 想把收藏的开源项目变成学习路线
+输出物：一组 chunking / retrieval 失败样例，以及一份 tool boundary checklist。
 
-读：
+### 第六周以后：读源码，做自己的题单
 
-- [21. 从 100 个 Starred Repos 清洗知识地图](docs/21-starred-repo-knowledge-map.md)
-- [22. Star 驱动的学习路线](docs/22-star-driven-learning-route.md)
-- [24. Source Reading Queue](docs/24-source-reading-queue.md)
+- [21. 开源项目知识提炼地图](docs/21-knowledge-extraction-map.md)
+- [22. 八周能力路线](docs/22-eight-week-learning-route.md)
+- [23. 源码阅读题单](docs/23-source-reading-questions.md)
+- [09. Source Reading Notes](docs/09-source-reading-notes.md)
 
-这部分不展示收藏夹清单，只提取可复用知识：哪些项目能帮你理解 Agent runtime，哪些项目能帮你做文档处理，哪些项目适合训练 CUDA/kernel 阅读，哪些项目只适合作为安全边界提醒。
+输出物：一页源码阅读笔记。读源码前先写问题，读完以后写结论，不要把 README 摘抄一遍。
 
 ## 目录
 
@@ -135,19 +143,19 @@
 - [18. 分布式训练与并行策略](docs/18-distributed-training.md)
 - [19. 大模型安全与上线运维](docs/19-safety-ops.md)
 - [20. 论文阅读路线](docs/20-paper-reading-roadmap.md)
-- [21. 从 100 个 Starred Repos 清洗知识地图](docs/21-starred-repo-knowledge-map.md)
-- [22. Star 驱动的学习路线](docs/22-star-driven-learning-route.md)
-- [24. Source Reading Queue](docs/24-source-reading-queue.md)
+- [21. 开源项目知识提炼地图](docs/21-knowledge-extraction-map.md)
+- [22. 八周能力路线](docs/22-eight-week-learning-route.md)
+- [23. 源码阅读题单](docs/23-source-reading-questions.md)
 - [术语表](docs/99-glossary.md)
 - [参考资料](docs/references.md)
 - [论文笔记模板](papers/README.md)
 - [后续项目清单](PROJECTS.md)
 
-## 怎么练
+## 学习产出模板
 
-每章最好配一个小输出。不要只读。
+每学一章，至少留下一种东西：
 
-| 学习内容 | 输出物 |
+| 主题 | 最小产出 |
 | --- | --- |
 | 模型格式 | 一张 PyTorch / ONNX / safetensors / OM 对照表 |
 | LoRA / QLoRA | 一个 toy 数据清洗脚本和一次 smoke test |
@@ -158,29 +166,7 @@
 | 论文阅读 | 一页论文笔记 |
 | 开源项目阅读 | 一页 source reading note |
 
-仓库里已经放了一些最小脚本：
-
-- `examples/minimal_inference.py`
-- `examples/minimal_sft_lora.py`
-- `examples/benchmark_openai_server.py`
-- `examples/estimate_kv_cache.py`
-- `examples/kv_cache_sweep.py`
-- `examples/chunk_text_preview.py`
-- `examples/evaluate_predictions.py`
-
-## 资料怎么来的
-
-主要来源有三类：
-
-- 官方文档：Hugging Face、PyTorch、NVIDIA CUDA、Huawei Ascend CANN、vLLM 等。
-- 开源项目：Codex、MCP、MinerU、MarkItDown、LeetCUDA、ZLUDA、gprMax 等。
-- 论文和技术报告：Transformer、LoRA、QLoRA、DPO、FlashAttention、vLLM、RAG 等。
-
-链接集中放在 [参考资料](docs/references.md)。如果一个概念没有官方文档、论文或可运行项目支撑，就先不写成结论。
-
 ## 自检问题
-
-读完一轮后，可以用这些问题检查自己是不是真的懂了：
 
 - LoRA 更新的是哪些参数？
 - QLoRA 的低比特量化发生在哪里？
