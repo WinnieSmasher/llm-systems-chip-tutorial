@@ -22,11 +22,22 @@
 - [03. Hugging Face 项目从哪里开始](docs/03-huggingface-workflow.md)
 - [04. SFT、LoRA、QLoRA、DPO 到底在训什么](docs/04-training-finetuning-alignment.md)
 - [05. 推理优化和部署](docs/05-inference-optimization.md)
+- [13. 模型评测与 Benchmark](docs/13-evaluation-benchmark.md)
+- [14. 数据工程与数据清洗](docs/14-data-engineering.md)
 
 如果你想往芯片、异构计算、大模型系统方向靠，读：
 
 - [06. 集成电路与 AI 芯片学习路线](docs/06-chip-domain-roadmap.md)
 - [07. 练手项目与简历表达](docs/07-practice-projects.md)
+- [17. 高级推理优化](docs/17-advanced-inference.md)
+- [18. 分布式训练与并行策略](docs/18-distributed-training.md)
+
+如果你想做能上线的应用，读：
+
+- [15. RAG 与 Agent 工程](docs/15-rag-agent-engineering.md)
+- [16. 量化专题](docs/16-quantization.md)
+- [19. 大模型安全与上线运维](docs/19-safety-ops.md)
+- [20. 论文阅读路线](docs/20-paper-reading-roadmap.md)
 
 ## 目录
 
@@ -45,6 +56,14 @@
 - [10. vLLM Benchmark Guide](docs/10-vllm-benchmark-guide.md)
 - [11. CUDA / CANN API Map](docs/11-cuda-cann-api-map.md)
 - [12. ONNX -> ATC -> OM -> AscendCL](docs/12-onnx-atc-om-flow.md)
+- [13. 模型评测与 Benchmark](docs/13-evaluation-benchmark.md)
+- [14. 数据工程与数据清洗](docs/14-data-engineering.md)
+- [15. RAG 与 Agent 工程](docs/15-rag-agent-engineering.md)
+- [16. 量化专题](docs/16-quantization.md)
+- [17. 高级推理优化](docs/17-advanced-inference.md)
+- [18. 分布式训练与并行策略](docs/18-distributed-training.md)
+- [19. 大模型安全与上线运维](docs/19-safety-ops.md)
+- [20. 论文阅读路线](docs/20-paper-reading-roadmap.md)
 - [术语表](docs/99-glossary.md)
 - [参考资料](docs/references.md)
 - [后续项目清单](PROJECTS.md)
@@ -75,5 +94,10 @@ CANN 是华为 Ascend NPU 原生生态
 - 一个 Hugging Face 模型 repo 里，`config.json`、tokenizer、`.safetensors` 分别负责什么？
 - 怎么用一个小脚本测本地 vLLM 服务的 TTFT 和延迟？
 - ONNX 转 OM 时，哪些问题属于导出失败，哪些属于 ATC 转换失败？
+- 为什么评测集要分 dev、regression、holdout？
+- RAG 的 indexing 和 retrieval/generation 为什么要拆开看？
+- INT4、QLoRA、GGUF、KV cache quantization 分别在量化哪一部分？
+- DDP、FSDP/ZeRO、tensor parallel、pipeline parallel 分别切了什么？
+- prompt injection 为什么不能只靠 system prompt 解决？
 
 如果这些问题答不清楚，先别急着往简历上堆“熟悉 CUDA/CANN/vLLM/LoRA”。先把一个小实验跑通，再写经历。

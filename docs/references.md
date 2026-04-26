@@ -6,17 +6,29 @@
 
 - Hugging Face LLM Course: https://huggingface.co/learn/llm-course
 - Transformers: https://huggingface.co/docs/transformers
+- Transformers chat templates: https://huggingface.co/docs/transformers/chat_templating
+- Transformers quantization: https://huggingface.co/docs/transformers/quantization/overview
 - PEFT: https://huggingface.co/docs/peft
 - TRL: https://huggingface.co/docs/trl
 - Datasets: https://huggingface.co/docs/datasets
+- LightEval: https://huggingface.co/docs/lighteval
 - safetensors: https://huggingface.co/docs/safetensors
+- bitsandbytes: https://huggingface.co/docs/bitsandbytes
+
+## 评测
+
+- lm-evaluation-harness: https://github.com/EleutherAI/lm-evaluation-harness
+- OpenCompass: https://github.com/open-compass/opencompass
+- OpenAI Evals: https://github.com/openai/evals
 
 ## 推理服务
 
 - vLLM docs: https://docs.vllm.ai/
 - vLLM GitHub: https://github.com/vllm-project/vllm
+- vLLM speculative decoding: https://docs.vllm.ai/en/latest/features/spec_decode/
 - Text Generation Inference: https://huggingface.co/docs/text-generation-inference
 - llama.cpp: https://github.com/ggml-org/llama.cpp
+- TensorRT-LLM: https://github.com/NVIDIA/TensorRT-LLM
 
 ## 模型格式
 
@@ -33,11 +45,26 @@
 - Huawei Ascend documentation: https://www.hiascend.com/document
 - MindSpeed-LLM: https://github.com/Ascend/MindSpeed-LLM
 
+## 分布式训练
+
+- PyTorch FSDP: https://docs.pytorch.org/docs/stable/fsdp.html
+- PyTorch Tensor Parallelism: https://docs.pytorch.org/docs/stable/distributed.tensor.parallel.html
+- DeepSpeed ZeRO: https://www.deepspeed.ai/tutorials/zero/
+- Megatron-LM: https://github.com/NVIDIA/Megatron-LM
+- NVIDIA NCCL: https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html
+
+## RAG、Agent 与安全
+
+- LangChain RAG tutorial: https://docs.langchain.com/oss/python/langchain/rag
+- LlamaIndex RAG overview: https://developers.llamaindex.ai/python/framework/understanding/rag/
+- Milvus overview: https://milvus.io/docs/overview.md
+- OWASP Top 10 for LLM Applications: https://genai.owasp.org/llm-top-10/
+
 ## 论文
 
+- Attention Is All You Need: https://arxiv.org/abs/1706.03762
 - LoRA: https://arxiv.org/abs/2106.09685
 - QLoRA: https://arxiv.org/abs/2305.14314
 - DPO: https://arxiv.org/abs/2305.18290
 - FlashAttention: https://arxiv.org/abs/2205.14135
 - PagedAttention / vLLM paper: https://arxiv.org/abs/2309.06180
-

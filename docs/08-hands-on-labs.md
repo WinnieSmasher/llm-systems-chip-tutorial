@@ -143,3 +143,62 @@ accuracy comparison:
 ```
 
 流程见 [12. ONNX -> ATC -> OM -> AscendCL](12-onnx-atc-om-flow.md)。
+
+## Lab 9: 清洗一份 SFT JSONL
+
+准备一个 `raw_sft.jsonl`，可以是 `messages` 格式，也可以是 `instruction/input/output` 格式。
+
+```bash
+python examples/clean_sft_jsonl.py \
+  --input raw_sft.jsonl \
+  --output temp/clean_sft.jsonl \
+  --report temp/clean_sft.report.json
+```
+
+检查报告里的：
+
+- `kept`
+- `duplicate`
+- `empty_content`
+- `repeated_role`
+- `length_chars`
+
+说明见 [14. 数据工程与数据清洗](14-data-engineering.md)。
+
+## Lab 10: 做一个小型回归评测
+
+准备 `predictions.jsonl`：
+
+```jsonl
+{"id":"cuda-001","prediction":"CUDA 是 NVIDIA GPU 的并行计算平台。","answer":"CUDA 是 NVIDIA GPU 的并行计算平台。","must_have":["NVIDIA","GPU"],"bad_patterns":["昇腾"]}
+```
+
+运行：
+
+```bash
+python examples/evaluate_predictions.py \
+  --input predictions.jsonl \
+  --output temp/metrics.json
+```
+
+先别追求复杂。能固定 20 条题，并在每次改模型、prompt、量化方式后都跑一次，就已经比空喊“效果更好”扎实。
+
+说明见 [13. 模型评测与 Benchmark](13-evaluation-benchmark.md)。
+
+## Lab 11: 预览 RAG chunking
+
+```bash
+python examples/chunk_text_preview.py \
+  --input docs/01-hardware-stacks.md \
+  --output temp/hardware_chunks.jsonl \
+  --chunk-size 900 \
+  --overlap 120
+```
+
+打开输出 JSONL，看每个 chunk 是否：
+
+- 保留了完整概念。
+- 没把标题和正文切散。
+- 有 `source` 和 `chunk_index`。
+
+说明见 [15. RAG 与 Agent 工程](15-rag-agent-engineering.md)。

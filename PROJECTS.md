@@ -8,9 +8,15 @@
 - [ ] 增加 AscendCL 推理伪代码。
 - [x] 增加 ONNX -> ATC -> `.om` 流程示意。
 - [x] 增加 vLLM 压测脚本。
-- [ ] 增加 LoRA 数据清洗示例。
+- [x] 增加 LoRA 数据清洗示例。
 - [x] 增加 KV Cache 显存估算脚本。
 - [x] 增加 vLLM OpenAI-compatible client。
+- [x] 增加模型评测与 benchmark 章节。
+- [x] 增加 RAG / Agent 工程章节。
+- [x] 增加量化专题章节。
+- [x] 增加分布式训练章节。
+- [x] 增加安全与上线运维章节。
+- [x] 增加论文阅读路线章节。
 
 ## Experiments
 
@@ -18,6 +24,10 @@
 - [ ] 比较 FP16、INT8、INT4 的输出质量。
 - [x] 增加 KV Cache 显存 sweep 脚本。
 - [ ] 对比 Transformers 原生推理和 vLLM 推理吞吐。
+- [x] 增加小型 JSONL 回归评测脚本。
+- [x] 增加 RAG chunking preview 脚本。
+- [ ] 补充一个真实模型的量化前后评测记录。
+- [ ] 补充一个 RAG top-k 召回实验。
 
 ## Resume Materials
 
@@ -28,3 +38,4 @@
 - [x] 补充 CUDA / CANN API 对照表。
 - [x] 补充 ONNX -> ATC -> OM 流程文档。
 - [ ] 补充 ONNX -> ATC -> OM 实机日志。
+- [ ] 整理“评测/数据/RAG/安全”四类项目经历 bullet。
