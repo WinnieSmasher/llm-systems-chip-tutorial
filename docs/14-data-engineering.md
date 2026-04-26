@@ -79,6 +79,8 @@ python examples/clean_sft_jsonl.py \
 {"instruction":"...","input":"...","output":"..."}
 ```
 
+这个脚本只做早期 sanity check：schema 统一、role 顺序、空内容、重复样本和长度过滤。它不会自动判断语言分布、版权许可、隐私风险和 train/eval 泄漏；这些要结合数据来源、hash 去重、人工抽样和数据卡继续查。
+
 ## 4. 数据版本要能回退
 
 不要只保存 `train.jsonl`。建议这样命名：
@@ -154,4 +156,3 @@ data/
 - Hugging Face Datasets processing: https://huggingface.co/docs/datasets/process
 - Transformers chat templates: https://huggingface.co/docs/transformers/chat_templating
 - TRL SFT Trainer: https://huggingface.co/docs/trl/sft_trainer
-

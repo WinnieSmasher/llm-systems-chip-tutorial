@@ -61,6 +61,7 @@ request -> scheduler -> prefill -> KV cache -> decode -> output
 | ZeRO | DeepSpeed ZeRO | optimizer/gradient/parameter state partition |
 | FSDP | PyTorch FSDP docs | 参数 shard 和 checkpoint |
 | NCCL | NVIDIA docs | collective communication |
+| HCCL / CANN | Huawei Ascend docs | 昇腾集群通信和软件栈版本匹配 |
 
 读这组内容时，把显存拆成：
 
@@ -146,11 +147,23 @@ my reproduction idea:
 ## 参考
 
 - Attention Is All You Need: https://arxiv.org/abs/1706.03762
+- GPT-3: https://arxiv.org/abs/2005.14165
+- Chinchilla: https://arxiv.org/abs/2203.15556
+- InstructGPT: https://arxiv.org/abs/2203.02155
 - LoRA: https://arxiv.org/abs/2106.09685
 - QLoRA: https://arxiv.org/abs/2305.14314
 - DPO: https://arxiv.org/abs/2305.18290
 - FlashAttention: https://arxiv.org/abs/2205.14135
 - PagedAttention / vLLM: https://arxiv.org/abs/2309.06180
+- RAG: https://arxiv.org/abs/2005.11401
+- DPR: https://arxiv.org/abs/2004.04906
+- HELM: https://arxiv.org/abs/2211.09110
+- Stanford HELM: https://crfm.stanford.edu/helm/
+- lm-evaluation-harness: https://github.com/EleutherAI/lm-evaluation-harness
+- OpenCompass: https://github.com/open-compass/opencompass
+- Megatron-LM: https://github.com/NVIDIA/Megatron-LM
 - DeepSpeed ZeRO: https://www.deepspeed.ai/tutorials/zero/
 - PyTorch FSDP: https://docs.pytorch.org/docs/stable/fsdp.html
-
+- Huawei Ascend CANN docs: https://www.hiascend.com/document
+- Huawei Ascend HCCL API docs: https://www.hiascend.com/document/detail/zh/canncommercial/80RC1/apiref/hcclapiref/hcclapi_07_0001.html
+- OWASP LLM Top 10: https://genai.owasp.org/llm-top-10/

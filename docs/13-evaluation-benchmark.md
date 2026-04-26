@@ -7,7 +7,7 @@
 ```text
 离线能力评测：模型会不会答
 服务性能评测：模型答得快不快、稳不稳
-安全与边界评测：模型在坏输入下会不会乱做事
+安全与边界评测：模型在恶意输入下是否会越权、泄露信息或误调用工具
 ```
 
 ## 1. 先区分 leaderboard 和项目评测
@@ -64,7 +64,7 @@ python examples/evaluate_predictions.py \
 
 这个脚本不会替代严肃 benchmark，但足够做版本回归。你要知道一次改动有没有把基础概念答错。
 
-## 4. 指标别乱用
+## 4. 指标的适用边界
 
 | 指标 | 适合 | 不适合 |
 | --- | --- | --- |
@@ -155,4 +155,3 @@ holdout: 少看，只在阶段性版本跑
 - OpenAI Evals: https://github.com/openai/evals
 - Hugging Face LightEval: https://huggingface.co/docs/lighteval
 - OWASP Top 10 for LLM Applications: https://genai.owasp.org/llm-top-10/
-

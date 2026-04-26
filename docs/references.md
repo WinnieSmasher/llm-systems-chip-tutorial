@@ -52,6 +52,9 @@
 - DeepSpeed ZeRO: https://www.deepspeed.ai/tutorials/zero/
 - Megatron-LM: https://github.com/NVIDIA/Megatron-LM
 - NVIDIA NCCL: https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html
+- Huawei Ascend CANN docs: https://www.hiascend.com/document
+- Huawei Ascend HCCL API docs: https://www.hiascend.com/document/detail/zh/canncommercial/80RC1/apiref/hcclapiref/hcclapi_07_0001.html
+- MindSpeed-LLM: https://github.com/Ascend/MindSpeed-LLM
 
 ## RAG、Agent 与安全
 
@@ -63,8 +66,14 @@
 ## 论文
 
 - Attention Is All You Need: https://arxiv.org/abs/1706.03762
+- GPT-3: https://arxiv.org/abs/2005.14165
+- Chinchilla: https://arxiv.org/abs/2203.15556
+- InstructGPT: https://arxiv.org/abs/2203.02155
 - LoRA: https://arxiv.org/abs/2106.09685
 - QLoRA: https://arxiv.org/abs/2305.14314
 - DPO: https://arxiv.org/abs/2305.18290
 - FlashAttention: https://arxiv.org/abs/2205.14135
 - PagedAttention / vLLM paper: https://arxiv.org/abs/2309.06180
+- RAG: https://arxiv.org/abs/2005.11401
+- DPR: https://arxiv.org/abs/2004.04906
+- HELM: https://arxiv.org/abs/2211.09110

@@ -66,6 +66,7 @@
 - [20. 论文阅读路线](docs/20-paper-reading-roadmap.md)
 - [术语表](docs/99-glossary.md)
 - [参考资料](docs/references.md)
+- [论文笔记模板](papers/README.md)
 - [后续项目清单](PROJECTS.md)
 
 ## 这份教程的主线

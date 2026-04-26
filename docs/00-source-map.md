@@ -69,6 +69,7 @@
 | [DeepSpeed ZeRO](https://www.deepspeed.ai/tutorials/zero/) | ZeRO stage 1/2/3 的切分逻辑 |
 | [Megatron-LM](https://github.com/NVIDIA/Megatron-LM) | tensor parallel、pipeline parallel、sequence parallel |
 | [NCCL docs](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html) | 多 GPU collective communication |
+| [Ascend HCCL API docs](https://www.hiascend.com/document/detail/zh/canncommercial/80RC1/apiref/hcclapiref/hcclapi_07_0001.html) | 昇腾多机多卡集合通信 |
 
 ## RAG、Agent 与安全
 

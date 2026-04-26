@@ -88,7 +88,9 @@ NVIDIA 生态常见 NCCL，昇腾生态常见 HCCL。它们负责多设备之间
 - reduce-scatter
 - broadcast
 
-分布式训练慢，很多时候不是算力不够，而是通信和拓扑限制。单机多卡、跨机多卡、PCIe、NVLink、InfiniBand，差别很大。
+分布式训练慢，很多时候不是算力不够，而是通信和拓扑限制。单机多卡、跨机多卡、PCIe、NVLink、InfiniBand、RoCE，差别很大。
+
+在昇腾项目里，还要同时看 CANN、HCCL、MindSpore/torch_npu/MindSpeed-LLM 的版本匹配。通信库能用，不代表上层训练框架的并行策略已经适配好。
 
 ## 7. Checkpoint 也会变复杂
 
@@ -143,4 +145,6 @@ how to merge adapter / full weights:
 - DeepSpeed ZeRO: https://www.deepspeed.ai/tutorials/zero/
 - Megatron-LM: https://github.com/NVIDIA/Megatron-LM
 - NCCL docs: https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html
-
+- Huawei Ascend CANN docs: https://www.hiascend.com/document
+- Huawei Ascend HCCL API docs: https://www.hiascend.com/document/detail/zh/canncommercial/80RC1/apiref/hcclapiref/hcclapi_07_0001.html
+- MindSpeed-LLM: https://github.com/Ascend/MindSpeed-LLM

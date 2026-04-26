@@ -199,6 +199,6 @@ python examples/chunk_text_preview.py \
 
 - 保留了完整概念。
 - 没把标题和正文切散。
-- 有 `source` 和 `chunk_index`。
+- 有 `source`、`section`、`line_start`、`line_end` 和 `chunk_index`。
 
 说明见 [15. RAG 与 Agent 工程](15-rag-agent-engineering.md)。
