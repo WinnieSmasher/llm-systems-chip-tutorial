@@ -39,6 +39,13 @@
 - [19. 大模型安全与上线运维](docs/19-safety-ops.md)
 - [20. 论文阅读路线](docs/20-paper-reading-roadmap.md)
 
+如果你想把 GitHub star 变成自己的学习路线，而不是收藏夹，读：
+
+- [21. 从 100 个 Starred Repos 清洗知识地图](docs/21-starred-repo-knowledge-map.md)
+- [22. Star 驱动的学习路线](docs/22-star-driven-learning-route.md)
+- [23. 100 个 Starred Repos 全量索引](docs/23-starred-repo-index.md)
+- [24. Source Reading Queue](docs/24-source-reading-queue.md)
+
 ## 目录
 
 - [00. 学习地图](docs/00-learning-map.md)
@@ -64,6 +71,10 @@
 - [18. 分布式训练与并行策略](docs/18-distributed-training.md)
 - [19. 大模型安全与上线运维](docs/19-safety-ops.md)
 - [20. 论文阅读路线](docs/20-paper-reading-roadmap.md)
+- [21. 从 100 个 Starred Repos 清洗知识地图](docs/21-starred-repo-knowledge-map.md)
+- [22. Star 驱动的学习路线](docs/22-star-driven-learning-route.md)
+- [23. 100 个 Starred Repos 全量索引](docs/23-starred-repo-index.md)
+- [24. Source Reading Queue](docs/24-source-reading-queue.md)
 - [术语表](docs/99-glossary.md)
 - [参考资料](docs/references.md)
 - [论文笔记模板](papers/README.md)

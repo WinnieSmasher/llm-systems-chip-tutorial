@@ -63,6 +63,23 @@
 - Milvus overview: https://milvus.io/docs/overview.md
 - OWASP Top 10 for LLM Applications: https://genai.owasp.org/llm-top-10/
 
+## Starred Repo Knowledge Map
+
+这组链接来自公开 GitHub starred repositories 的清洗结果，不按 star 数排序，而按是否能转化成概念图、实验、源码阅读笔记或贡献计划来使用。
+
+- OpenAI Codex: https://github.com/openai/codex
+- Anthropic Skills: https://github.com/anthropics/skills
+- Model Context Protocol Rust SDK: https://github.com/modelcontextprotocol/rust-sdk
+- OpenCode: https://github.com/anomalyco/opencode
+- LeetCUDA: https://github.com/xlite-dev/LeetCUDA
+- ZLUDA: https://github.com/vosen/ZLUDA
+- gprMax: https://github.com/gprMax/gprMax
+- MarkItDown: https://github.com/microsoft/markitdown
+- MinerU: https://github.com/opendatalab/MinerU
+- Paper QA: https://github.com/Future-House/paper-qa
+- Langchain-Chatchat: https://github.com/chatchat-space/Langchain-Chatchat
+- PaperBanana: https://github.com/dwzhu-pku/PaperBanana
+
 ## 论文
 
 - Attention Is All You Need: https://arxiv.org/abs/1706.03762
