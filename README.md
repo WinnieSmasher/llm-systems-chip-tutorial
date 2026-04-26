@@ -6,6 +6,8 @@
 
 > Hugging Face 上的开源大模型，到底怎样被下载、训练、微调、优化、部署到 GPU/NPU 上？
 
+![LLM lifecycle](assets/llm-lifecycle.svg)
+
 ## 学习路线
 
 1. 先理解硬件生态：GPU、NPU、CUDA、ZLUDA、CANN 分别是什么。
@@ -32,6 +34,8 @@
 
 ## 一句话总览
 
+![Hardware stacks](assets/hardware-stacks.svg)
+
 ```text
 Hugging Face 提供模型和工具
 PyTorch 负责训练和微调
@@ -41,4 +45,3 @@ ZLUDA 是 CUDA 兼容层
 CANN 是华为昇腾 NPU 原生生态
 vLLM/TensorRT/CANN 等工具负责让推理更快更省
 ```
-

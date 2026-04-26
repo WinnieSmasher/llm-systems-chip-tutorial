@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520" role="img" aria-label="Hardware software stacks">
+  <rect width="1100" height="520" fill="#ffffff"/>
+  <style>
+    .col { fill: #fafafa; stroke: #202020; stroke-width: 2; rx: 12; }
+    .layer { fill: #ffffff; stroke: #666666; stroke-width: 1.4; rx: 8; }
+    .title { font: 700 24px Arial, sans-serif; fill: #111111; }
+    .head { font: 700 18px Arial, sans-serif; fill: #111111; }
+    .text { font: 15px Arial, sans-serif; fill: #333333; }
+  </style>
+  <text x="40" y="44" class="title">CUDA, ZLUDA, CANN Are Different Layers</text>
+  <g transform="translate(40,80)">
+    <rect class="col" width="310" height="390"/>
+    <text x="24" y="38" class="head">NVIDIA GPU</text>
+    <rect class="layer" x="24" y="70" width="262" height="58"/>
+    <text x="44" y="105" class="text">PyTorch / TensorFlow</text>
+    <rect class="layer" x="24" y="148" width="262" height="58"/>
+    <text x="44" y="183" class="text">CUDA Runtime</text>
+    <rect class="layer" x="24" y="226" width="262" height="58"/>
+    <text x="44" y="261" class="text">cuDNN / cuBLAS / NCCL</text>
+    <rect class="layer" x="24" y="304" width="262" height="58"/>
+    <text x="44" y="339" class="text">NVIDIA GPU hardware</text>
+  </g>
+  <g transform="translate(395,80)">
+    <rect class="col" width="310" height="390"/>
+    <text x="24" y="38" class="head">ZLUDA Idea</text>
+    <rect class="layer" x="24" y="70" width="262" height="58"/>
+    <text x="44" y="105" class="text">CUDA application</text>
+    <rect class="layer" x="24" y="148" width="262" height="58"/>
+    <text x="44" y="183" class="text">ZLUDA compatibility layer</text>
+    <rect class="layer" x="24" y="226" width="262" height="58"/>
+    <text x="44" y="261" class="text">non-NVIDIA backend</text>
+    <rect class="layer" x="24" y="304" width="262" height="58"/>
+    <text x="44" y="339" class="text">non-NVIDIA GPU</text>
+  </g>
+  <g transform="translate(750,80)">
+    <rect class="col" width="310" height="390"/>
+    <text x="24" y="38" class="head">Huawei Ascend NPU</text>
+    <rect class="layer" x="24" y="70" width="262" height="58"/>
+    <text x="44" y="105" class="text">PyTorch / MindSpore</text>
+    <rect class="layer" x="24" y="148" width="262" height="58"/>
+    <text x="44" y="183" class="text">torch_npu / MindFormers</text>
+    <rect class="layer" x="24" y="226" width="262" height="58"/>
+    <text x="44" y="261" class="text">CANN / AscendCL</text>
+    <rect class="layer" x="24" y="304" width="262" height="58"/>
+    <text x="44" y="339" class="text">Ascend NPU hardware</text>
+  </g>
+</svg>
+
