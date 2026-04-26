@@ -78,7 +78,7 @@ Hugging Face 模型
 3. 用 `examples/minimal_sft_lora.py` 跑一个小 LoRA smoke test。
 4. 用 vLLM 起一个 OpenAI-compatible 服务。
 5. 测 input length、output length、concurrency 对延迟和显存的影响。
-6. 写一页实验报告。
+6. 用 `examples/kv_cache_sweep.py` 写一张 KV cache 估算表。
+7. 写一页实验报告。
 
 最后能写成简历的不是“熟悉很多名词”，而是你真的测过、对比过、解释过。
-

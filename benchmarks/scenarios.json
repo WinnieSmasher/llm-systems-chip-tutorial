@@ -1,0 +1,24 @@
+[
+  {
+    "name": "short_prompt_low_concurrency",
+    "prompt": "用四句话解释 KV Cache 为什么影响 LLM 推理显存。",
+    "max_tokens": 128,
+    "concurrency": 1,
+    "requests": 8
+  },
+  {
+    "name": "short_prompt_medium_concurrency",
+    "prompt": "用四句话解释 KV Cache 为什么影响 LLM 推理显存。",
+    "max_tokens": 128,
+    "concurrency": 8,
+    "requests": 32
+  },
+  {
+    "name": "systems_explanation",
+    "prompt": "请比较 CUDA、ZLUDA、CANN 在大模型部署链路中的位置，要求分层说明。",
+    "max_tokens": 256,
+    "concurrency": 4,
+    "requests": 16
+  }
+]
+

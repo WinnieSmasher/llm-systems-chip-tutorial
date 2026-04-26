@@ -60,8 +60,7 @@ Y 是什么
 
 - 一个真实 vLLM 压测脚本。
 - 一份小型 benchmark 结果表。
-- CUDA / CANN API 对照表。
-- ONNX -> ATC -> OM 的真实命令示例。
+- CUDA / CANN API 对照表已经有第一版，还需要继续补真实 API 链接和代码样例。
+- ONNX -> ATC -> OM 的流程文档已经有第一版，还缺实机日志。
 - 一个 LoRA 数据清洗脚本。
 - 对 DeepSeek、GLM、Qwen 这类模型的 model card 阅读记录。
-

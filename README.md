@@ -42,6 +42,9 @@
 - [07. 练手项目与简历表达](docs/07-practice-projects.md)
 - [08. Hands-on Labs](docs/08-hands-on-labs.md)
 - [09. Source Reading Notes](docs/09-source-reading-notes.md)
+- [10. vLLM Benchmark Guide](docs/10-vllm-benchmark-guide.md)
+- [11. CUDA / CANN API Map](docs/11-cuda-cann-api-map.md)
+- [12. ONNX -> ATC -> OM -> AscendCL](docs/12-onnx-atc-om-flow.md)
 - [术语表](docs/99-glossary.md)
 - [参考资料](docs/references.md)
 - [后续项目清单](PROJECTS.md)
@@ -70,5 +73,7 @@ CANN 是华为 Ascend NPU 原生生态
 - CUDA kernel、Ascend C 自定义算子、PyTorch op 之间是什么关系？
 - 华为昇腾 CANN 和 ZLUDA 为什么不是一回事？
 - 一个 Hugging Face 模型 repo 里，`config.json`、tokenizer、`.safetensors` 分别负责什么？
+- 怎么用一个小脚本测本地 vLLM 服务的 TTFT 和延迟？
+- ONNX 转 OM 时，哪些问题属于导出失败，哪些属于 ATC 转换失败？
 
 如果这些问题答不清楚，先别急着往简历上堆“熟悉 CUDA/CANN/vLLM/LoRA”。先把一个小实验跑通，再写经历。

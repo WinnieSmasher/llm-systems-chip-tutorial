@@ -1,0 +1,3 @@
+date,host,accelerator,driver_runtime,model,backend,precision,input_tokens,target_output_tokens,concurrency,num_requests,ttft_p50_s,ttft_p90_s,e2e_p50_s,e2e_p90_s,output_tokens_per_s,total_wall_s,notes
+2026-04-26,local,NVIDIA/Ascend/CPU,CUDA/CANN/ROCm,Qwen/Qwen2.5-0.5B-Instruct,vLLM,bf16,512,128,1,8,,,,,,,"fill after running benchmark_openai_server.py"
+
