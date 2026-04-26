@@ -24,8 +24,10 @@
 - [04. 训练、微调、继续预训练与对齐](docs/04-training-finetuning-alignment.md)
 - [05. 推理优化与部署](docs/05-inference-optimization.md)
 - [06. 集成电路与 AI 芯片方向怎么学](docs/06-chip-domain-roadmap.md)
+- [07. 练手项目与简历表达](docs/07-practice-projects.md)
 - [术语表](docs/99-glossary.md)
 - [参考资料](docs/references.md)
+- [后续项目清单](PROJECTS.md)
 
 ## 推荐读法
 
