@@ -8,6 +8,7 @@ data/
 checkpoints/
 outputs/
 temp/
+.omx/
 *.safetensors
 *.bin
 *.pt
