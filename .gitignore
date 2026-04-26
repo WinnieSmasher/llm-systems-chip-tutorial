@@ -7,6 +7,7 @@ __pycache__/
 data/
 checkpoints/
 outputs/
+temp/
 *.safetensors
 *.bin
 *.pt
@@ -19,4 +20,3 @@ outputs/
 Thumbs.db
 .idea/
 .vscode/
-
