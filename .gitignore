@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+.venv/
+.pytest_cache/
+
+# Data and model artifacts
+data/
+checkpoints/
+outputs/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.om
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
