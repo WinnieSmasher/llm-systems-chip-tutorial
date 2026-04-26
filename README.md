@@ -100,16 +100,15 @@
 - 选一篇论文，用 [论文笔记模板](papers/README.md) 写一页笔记。
 - 记录一次检索失败或引用错误，而不是只记录成功样例。
 
-### 5. 想整理自己的 GitHub star
+### 5. 想把收藏的开源项目变成学习路线
 
 读：
 
 - [21. 从 100 个 Starred Repos 清洗知识地图](docs/21-starred-repo-knowledge-map.md)
 - [22. Star 驱动的学习路线](docs/22-star-driven-learning-route.md)
-- [23. 100 个 Starred Repos 全量索引](docs/23-starred-repo-index.md)
 - [24. Source Reading Queue](docs/24-source-reading-queue.md)
 
-这部分的目的不是展示收藏夹。它把 100 个公开 starred repos 分成几类：核心学习、可读可练、参考资料、隔离观察。能转成实验、源码阅读笔记、技术图或贡献计划的项目，才放进主线。
+这部分不展示收藏夹清单，只提取可复用知识：哪些项目能帮你理解 Agent runtime，哪些项目能帮你做文档处理，哪些项目适合训练 CUDA/kernel 阅读，哪些项目只适合作为安全边界提醒。
 
 ## 目录
 
@@ -138,7 +137,6 @@
 - [20. 论文阅读路线](docs/20-paper-reading-roadmap.md)
 - [21. 从 100 个 Starred Repos 清洗知识地图](docs/21-starred-repo-knowledge-map.md)
 - [22. Star 驱动的学习路线](docs/22-star-driven-learning-route.md)
-- [23. 100 个 Starred Repos 全量索引](docs/23-starred-repo-index.md)
 - [24. Source Reading Queue](docs/24-source-reading-queue.md)
 - [术语表](docs/99-glossary.md)
 - [参考资料](docs/references.md)

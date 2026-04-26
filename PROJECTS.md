@@ -17,9 +17,9 @@
 - [x] 增加分布式训练章节。
 - [x] 增加安全与上线运维章节。
 - [x] 增加论文阅读路线章节。
-- [x] 增加 GitHub starred repos 清洗知识地图。
-- [x] 增加 star 驱动学习路线和源码阅读队列。
-- [ ] 为第一队列项目补充逐篇源码阅读笔记。
+- [x] 从 GitHub starred repos 提取学习主题和能力路线。
+- [x] 增加源码阅读题单。
+- [ ] 为 Agent runtime、文档智能、CUDA/kernel 三条线补充源码阅读笔记。
 
 ## Experiments
 
@@ -37,7 +37,7 @@
 - [ ] 整理大模型系统方向简历 bullet。
 - [ ] 整理芯片/异构计算方向简历 bullet。
 - [ ] 整理开源贡献型经历模板。
-- [ ] 从 starred repos 中筛选 3 个开源贡献候选并写 issue/PR 计划。
+- [ ] 从知识路线中筛选 3 个开源贡献候选并写 issue/PR 计划。
 - [ ] 补充真实 vLLM benchmark 结果。
 - [x] 补充 CUDA / CANN API 对照表。
 - [x] 补充 ONNX -> ATC -> OM 流程文档。
