@@ -1,152 +1,156 @@
-# 02. PyTorch 模型、ONNX 模型和部署格式
+# 02. PyTorch、ONNX、safetensors 和 OM
 
-这一章解释几个常见词：
+很多人第一次看 Hugging Face，会以为“模型就是一个文件”。其实不是。
 
-- PyTorch 模型
-- Hugging Face 模型
-- ONNX 模型
-- safetensors
-- 昇腾 `.om` 模型
+一个模型项目里通常同时有结构、权重、分词器、推理模板、license 和示例代码。不同文件负责不同事情。
 
-## 1. Hugging Face 上的模型是什么
+## 1. Hugging Face 模型 repo 里有什么
 
-Hugging Face 上一个大模型通常不是一个单独文件，而是一个目录结构：
+一个常见 LLM repo 大概长这样：
 
 ```text
-model repo
+Qwen2.5-0.5B-Instruct/
 ├── config.json
+├── generation_config.json
 ├── tokenizer.json
 ├── tokenizer_config.json
-├── generation_config.json
+├── special_tokens_map.json
 ├── model.safetensors
 └── README.md
 ```
 
-这些文件分别负责：
+大致分工：
 
-- `config.json`：模型结构，例如层数、hidden size、attention heads。
-- tokenizer files：把自然语言切成 token。
-- `model.safetensors`：模型权重。
-- `generation_config.json`：默认生成参数。
-- `README.md`：model card，说明训练数据、license、用法和限制。
+| 文件 | 作用 |
+| --- | --- |
+| `config.json` | 模型结构配置，比如层数、hidden size、attention heads |
+| tokenizer files | 把文本变成 token id，再把 token id 解码成文本 |
+| `model.safetensors` | 权重矩阵 |
+| `generation_config.json` | 默认生成参数 |
+| `README.md` | model card，包含 license、训练说明、用法和限制 |
 
-用 Transformers 加载时：
+Transformers 加载模型时，会把这些东西组合起来。
 
 ```python
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "Qwen/Qwen2.5-0.5B-Instruct"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(model_id)
 ```
 
-这时你拿到的是一个可以在 PyTorch 里运行的模型对象。
+这时的 `model` 是一个 PyTorch module，可以 forward、generate、训练、保存。
 
-## 2. PyTorch 模型是什么
+## 2. PyTorch checkpoint 为什么适合训练
 
-PyTorch 模型可以继续训练、微调、算梯度、更新参数。
+PyTorch 模型是动态图框架里的模型对象。它适合：
 
-通俗地说：
+- 算梯度。
+- 更新参数。
+- 接 LoRA adapter。
+- 做 SFT / DPO。
+- 保存 checkpoint。
 
-```text
-PyTorch 模型 = 还活着的大脑
-```
+你可以把它理解成“还可以继续学习的模型状态”。
 
-它适合：
-
-- 直接推理。
-- SFT 监督微调。
-- LoRA/QLoRA 参数高效微调。
-- continued pretraining 继续预训练。
-- DPO/RLHF 偏好对齐。
-- 保存新 checkpoint。
-
-训练和微调时，通常优先使用 PyTorch 模型。
-
-## 3. safetensors 是什么
-
-`.safetensors` 是一种保存模型权重的格式。相比传统 pickle-based 的 `.bin`，它更安全、加载也更可控。
-
-你可以把它理解成：
+训练时通常保留这些东西：
 
 ```text
-safetensors = 模型参数矩阵的安全存储文件
+base model weights
+tokenizer
+training config
+optimizer state
+lr scheduler state
+adapter weights
+checkpoint metadata
 ```
 
-它不是模型结构本身，模型结构仍然需要 `config.json`。
+注意：如果你只保存了 LoRA adapter，不等于保存了完整模型。推理时还需要 base model。
 
-## 4. ONNX 模型是什么
+## 3. safetensors 是权重存储格式
 
-ONNX 是一种跨框架模型交换格式。
+`.safetensors` 保存的是 tensor，不保存任意 Python 对象。它比传统 pickle 格式更安全，也适合快速加载。
 
-通俗地说：
+但它不是“完整模型”。完整加载仍然需要：
 
 ```text
-PyTorch 模型 = 活的大脑，可以继续学习
-ONNX 模型    = 固化后的电路图，主要用于高效执行
+config.json + tokenizer + safetensors weights + 对应代码
 ```
 
-ONNX 常用于：
+所以看到 `model.safetensors`，不要以为单独这个文件就能聊天。
 
-- 推理部署。
-- 跨框架迁移。
-- ONNX Runtime 加速。
-- TensorRT / OpenVINO / CANN 等后端转换。
+## 4. ONNX 是部署交换格式
 
-它通常不适合继续训练大型语言模型。
+ONNX 的核心是一张计算图：
+
+```text
+Graph
+  -> Node
+  -> Tensor
+  -> Operator
+  -> Initializer
+```
+
+PyTorch 导出 ONNX 时，会把模型 forward 过程转换成一个静态图。ONNX Runtime、TensorRT、OpenVINO、CANN 等后端可以基于这个图做推理优化或硬件适配。
 
 常见路线：
 
 ```text
 PyTorch model
-  -> export
-  -> ONNX
-  -> runtime/backend optimization
-  -> inference service
+  -> export to ONNX
+  -> backend optimization
+  -> inference runtime
 ```
 
-## 5. 昇腾 `.om` 模型是什么
+ONNX 更偏部署，不是大模型继续训练的主路线。
 
-在华为昇腾部署场景里，ATC 可以把 ONNX、TensorFlow、Caffe 等模型转换成 `.om`。
+## 5. 昇腾 OM 是什么
 
-`.om` 可以理解为：
-
-```text
-Ascend NPU 更容易直接执行的模型文件
-```
-
-典型流程：
+在 Ascend 静态图推理中，ATC 可以把 ONNX 等模型转换成 `.om`：
 
 ```text
 model.onnx
   -> ATC
   -> model.om
-  -> AscendCL 加载
-  -> Ascend NPU 推理
+  -> AscendCL application
+  -> Ascend NPU
 ```
 
-注意：`.om` 更偏部署执行，不是你日常用来 LoRA 微调的训练格式。
+`.om` 是面向昇腾推理执行的模型文件。它不是通用训练 checkpoint。
 
-## 6. 什么时候用哪个
-
-| 目标 | 推荐格式/工具 |
-| --- | --- |
-| 继续训练大模型 | PyTorch checkpoint + Transformers |
-| LoRA/QLoRA 微调 | PyTorch + PEFT/TRL |
-| Hugging Face 推理测试 | Transformers |
-| 高吞吐大模型服务 | vLLM / TGI |
-| 跨框架部署 | ONNX |
-| NVIDIA 推理优化 | TensorRT / TensorRT-LLM |
-| 昇腾静态推理部署 | ONNX -> ATC -> `.om` |
-| 昇腾 PyTorch 适配 | torch_npu + CANN |
-
-## 7. 一个关键误区
-
-不要把“模型文件格式”和“硬件计算生态”混在一起。
+所以别把这几个东西混成一团：
 
 ```text
-PyTorch/ONNX/safetensors 是模型表达或存储问题
-CUDA/CANN/ROCm 是硬件执行生态问题
-vLLM/TensorRT/CANN runtime 是推理优化和部署问题
+PyTorch checkpoint: 适合训练、微调、继续迭代
+ONNX: 适合跨框架推理部署
+OM: 适合 Ascend NPU 静态推理部署
+safetensors: 常见权重存储格式
 ```
+
+## 6. 一个实际选择表
+
+| 你要做什么 | 更常用的入口 |
+| --- | --- |
+| 下载开源 LLM 试聊 | Hugging Face + Transformers |
+| LoRA/QLoRA 微调 | PyTorch checkpoint + PEFT/TRL |
+| 做 DPO 偏好对齐 | PyTorch checkpoint + TRL |
+| 部署 OpenAI-compatible 服务 | vLLM / TGI |
+| 跨框架推理 | ONNX / ONNX Runtime |
+| NVIDIA 极致推理优化 | TensorRT-LLM |
+| 昇腾静态推理 | ONNX -> ATC -> OM -> AscendCL |
+| 昇腾训练或微调 | torch_npu / MindSpeed-LLM / CANN |
+
+## 7. 一个常见坑
+
+有人会问：“我把模型转 ONNX 以后，还能不能继续 LoRA 微调？”
+
+通常不这么做。LoRA 微调发生在 PyTorch 训练图里；ONNX 是为了推理图执行。你应该保留原始 PyTorch/Hugging Face checkpoint，训练完成后再考虑导出部署格式。
+
+## 参考
+
+- Hugging Face Transformers: https://huggingface.co/docs/transformers
+- safetensors: https://huggingface.co/docs/safetensors
+- ONNX Concepts: https://onnx.ai/onnx/intro/concepts.html
+- PyTorch ONNX Export: https://docs.pytorch.org/docs/stable/onnx.html
+- Huawei Ascend documentation: https://www.hiascend.com/document
 

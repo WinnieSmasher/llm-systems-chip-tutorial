@@ -1,174 +1,183 @@
-# 03. Hugging Face 大模型工作流
+# 03. Hugging Face 项目从哪里开始
 
-这一章从工程视角解释：
+如果你想拿 Hugging Face 上的开源模型做训练、推理、微调，不要第一步就写训练脚本。先把下面这个闭环跑通：
 
-> Hugging Face 上的 DeepSeek、GLM、Qwen、Llama 等开源模型，拿下来以后到底怎么用？
+```text
+选模型
+  -> 看 model card 和 license
+  -> 跑最小推理
+  -> 建小评测集
+  -> 记录 baseline
+  -> 再决定要不要微调
+```
 
-模型名字可以替换，核心流程基本类似。
+很多项目失败不是因为 LoRA 参数没调好，而是连 baseline、数据质量和评测集都没有。
 
-## 1. Hugging Face 是什么
+## 1. 选模型时先看四件事
 
-Hugging Face 可以理解成大模型领域的 GitHub + package registry：
+### License
 
-- Hub：存模型、数据集、Space demo。
-- Transformers：加载和运行模型。
-- Datasets：加载和处理训练数据。
-- Tokenizers：分词。
-- PEFT：LoRA/QLoRA 等参数高效微调。
-- TRL：SFT、DPO、PPO 等大模型训练/对齐工具。
-- Accelerate：多 GPU/混合精度/分布式训练辅助。
+能不能商用、能不能再分发、能不能做衍生模型，先看 model card。不要下载完才发现不能用。
 
-## 2. 最小推理流程
+### Context length
 
-假设你选择一个 causal language model，也就是自回归语言模型。
+长上下文会显著影响显存，尤其是 KV cache。不要只看“7B/14B/32B”参数量。
+
+### Chat template
+
+Instruct/chat 模型通常有自己的对话格式。Transformers 提供 `apply_chat_template`，尽量用 tokenizer 自带模板，不要自己拼字符串。
+
+### 是否需要 remote code
+
+有些模型需要 `trust_remote_code=True`。这意味着你会执行模型仓库里的自定义 Python 代码。只对你信任的模型使用。
+
+## 2. 最小推理脚本
+
+先用小模型跑通：
 
 ```python
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 model_id = "Qwen/Qwen2.5-0.5B-Instruct"
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
     model_id,
-    dtype=torch.bfloat16,
+    torch_dtype=torch.bfloat16,
     device_map="auto",
 )
 
 messages = [
-    {"role": "user", "content": "用通俗语言解释 CUDA 和 CANN 的区别。"}
+    {"role": "user", "content": "用三句话解释 PyTorch 模型和 ONNX 模型的区别。"}
 ]
 
-input_ids = tokenizer.apply_chat_template(
+inputs = tokenizer.apply_chat_template(
     messages,
-    tokenize=True,
     add_generation_prompt=True,
     return_tensors="pt",
+    tokenize=True,
 ).to(model.device)
 
-outputs = model.generate(input_ids, max_new_tokens=512, temperature=0.7)
+outputs = model.generate(
+    inputs,
+    max_new_tokens=256,
+    do_sample=False,
+)
+
 print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
 
-这里几个关键概念：
+这里先用 `do_sample=False`，因为做 baseline 时要稳定，不要每次输出都漂。
 
-- `AutoTokenizer`：自动加载对应 tokenizer。
-- `AutoModelForCausalLM`：加载自回归语言模型。
-- `device_map="auto"`：自动把模型放到可用设备上。
-- `apply_chat_template`：把多轮对话转成模型能理解的 token 序列。
-- `generate`：让模型一个 token 一个 token 地生成回答。
+## 3. 建一个小评测集
 
-## 3. 数据长什么样
+不要等训练完再想怎么评测。先准备 20 到 100 条你关心的样例。
 
-如果做指令微调，数据通常长这样：
+比如你要做“大模型系统教程助手”，评测集可以包括：
+
+```json
+{
+  "id": "cuda_cann_001",
+  "question": "华为昇腾 CANN 和 ZLUDA 是什么关系？",
+  "must_have": ["CANN 是 Ascend NPU 原生生态", "ZLUDA 是 CUDA 兼容层", "二者不是同一层"],
+  "bad_patterns": ["昇腾就是 ZLUDA", "CANN 是 ONNX 的一种"]
+}
+```
+
+评测不一定一开始就自动化。人工表格也可以，但要固定样例。
+
+## 4. 数据格式
+
+SFT 常见格式是 messages：
 
 ```json
 {
   "messages": [
-    {"role": "user", "content": "解释一下什么是 ONNX。"},
-    {"role": "assistant", "content": "ONNX 是一种跨框架模型交换格式..."}
+    {"role": "user", "content": "解释一下 vLLM 的 PagedAttention。"},
+    {"role": "assistant", "content": "PagedAttention 把 KV cache 分页管理..."}
   ]
 }
 ```
 
-或者更传统的 instruction 格式：
+或者 instruction 格式：
 
 ```json
 {
-  "instruction": "分析下面的玩家行为序列",
-  "input": "login -> level_1_fail -> retry -> quit",
-  "output": "该玩家在第 1 关反复失败后退出，可能存在早期关卡难度过高的问题。"
+  "instruction": "解释下面术语",
+  "input": "KV Cache",
+  "output": "KV Cache 是 Transformer 解码时保存历史 key/value 的缓存..."
 }
 ```
 
-数据质量通常比训练代码更重要。常见清洗项：
+无论哪种，最后都要变成模型 chat template 对应的 token 序列。
 
-- 去掉重复样本。
-- 去掉空回答、乱码、格式错误。
-- 统一角色字段。
-- 控制输出长度。
-- 避免把测试集泄露到训练集。
-- 保留高质量人工样本或专家样本。
+## 5. 用 TRL 做一个最小 SFT
 
-## 4. 训练大模型通常有哪些层次
+TRL 的 `SFTTrainer` 是常见入口。真实训练前先小步跑通：
 
-从轻到重：
+```python
+from datasets import load_dataset
+from trl import SFTConfig, SFTTrainer
 
-```text
-Prompt engineering
-  -> RAG
-  -> LoRA/QLoRA SFT
-  -> full fine-tuning
-  -> continued pretraining
-  -> alignment with DPO/RLHF
+dataset = load_dataset("trl-lib/Capybara", split="train")
+
+args = SFTConfig(
+    output_dir="outputs/qwen-sft-smoke",
+    per_device_train_batch_size=2,
+    gradient_accumulation_steps=8,
+    learning_rate=2e-5,
+    num_train_epochs=1,
+    max_length=2048,
+    packing=True,
+)
+
+trainer = SFTTrainer(
+    model="Qwen/Qwen2.5-0.5B-Instruct",
+    args=args,
+    train_dataset=dataset,
+)
+
+trainer.train()
 ```
 
-不要一上来就训练。很多任务可以先用 prompt、RAG 或 workflow 解决。
+这只是 smoke test，不代表最终训练配置。正式训练要加：
 
-## 5. 一个真实项目的迭代闭环
+- eval dataset。
+- checkpoint 策略。
+- logging。
+- seed。
+- 数据版本记录。
+- 训练环境记录。
 
-```text
-选模型
-  -> 构造小评测集
-  -> 直接推理 baseline
-  -> 收集错误案例
-  -> 清洗训练数据
-  -> LoRA/QLoRA 微调
-  -> 跑评测
-  -> 推理优化
-  -> 部署服务
-  -> 收集线上反馈
-  -> 继续迭代
-```
-
-每次迭代要记录：
-
-- base model 版本。
-- 数据集版本。
-- 训练超参数。
-- eval 指标。
-- 推理延迟和显存占用。
-- 人工观察到的失败模式。
-
-## 6. DeepSeek、GLM 这种模型怎么代入
-
-不要被模型名字吓到。只要模型支持 Transformers 或提供对应推理/训练接口，基本逻辑就是：
+## 6. 一条靠谱的迭代路线
 
 ```text
-model_id = "实际 Hugging Face repo id"
-tokenizer = AutoTokenizer.from_pretrained(model_id)
-model = AutoModelForCausalLM.from_pretrained(model_id)
+第 0 步：读 model card，确认 license 和硬件需求
+第 1 步：跑最小推理，保存 baseline 输出
+第 2 步：做小评测集，人工检查模型弱点
+第 3 步：整理训练数据，先不要太大，先要干净
+第 4 步：LoRA/QLoRA SFT
+第 5 步：用同一套评测集对比
+第 6 步：决定是继续清洗数据、调训练，还是直接做 RAG/Prompt
+第 7 步：推理优化和部署
 ```
 
-需要注意：
+## 7. 不要一上来就微调
 
-- 有些模型需要申请 license 或登录 Hugging Face token。
-- 有些模型需要 `trust_remote_code=True`。
-- 不同模型 chat template 不同，EOS token 也可能不同。
-- 大模型需要足够显存，不能只看参数量，还要看精度、上下文长度和 KV cache。
+先问自己：
 
-## 7. 最容易踩的坑
+- 任务是不是知识更新频繁？如果是，RAG 可能更合适。
+- 只是输出格式不好？先试 prompt 和 constrained decoding。
+- 数据是不是只有几十条？先做 eval 和数据清洗。
+- 有没有明确指标？没有指标就不知道微调是否变好。
 
-### 坑一：把 instruct 模型和 base 模型混用
+微调不是魔法。它只是把你给的数据分布压进模型行为里。
 
-- base model：更像“续写器”，适合继续预训练或作为微调起点。
-- instruct/chat model：已经做过指令微调，更适合直接聊天和任务指令。
+## 参考
 
-### 坑二：只看训练 loss
-
-训练 loss 降低不等于模型更好。你还要看：
-
-- 任务评测集。
-- 人工样例。
-- 幻觉率。
-- 格式遵循能力。
-- 延迟、吞吐、显存。
-
-### 坑三：数据太脏
-
-低质量数据会把模型带偏。尤其是小规模 LoRA 微调，数据噪声会非常明显。
-
-### 坑四：忘记 tokenizer 和 chat template
-
-同样的文字，不同 tokenizer 和 chat template 会变成不同 token 序列。对于 chat model，这往往直接影响回答质量。
+- Hugging Face LLM Course: https://huggingface.co/learn/llm-course
+- Transformers docs: https://huggingface.co/docs/transformers
+- TRL SFTTrainer docs: https://huggingface.co/docs/trl
+- Datasets docs: https://huggingface.co/docs/datasets
 

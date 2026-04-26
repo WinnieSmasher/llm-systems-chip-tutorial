@@ -1,190 +1,184 @@
-# 04. 训练、微调、继续预训练与对齐
+# 04. SFT、LoRA、QLoRA、DPO 到底在训什么
 
-这一章解释几个经常被混用的词：
-
-- training
-- fine-tuning
-- SFT
-- LoRA/QLoRA
-- continued pretraining
-- alignment
-- DPO/RLHF
-
-## 1. Training 是总称
-
-Training 是训练的总称，只要模型参数被更新，都可以叫 training。
-
-但在大模型工程里，我们通常会进一步区分：
+先分清楚：这些词不是同一个维度。
 
 ```text
-pretraining
-continued pretraining
-supervised fine-tuning
-parameter-efficient fine-tuning
-alignment
+SFT / DPO 说的是训练目标
+LoRA / QLoRA 说的是参数更新方式和显存策略
+continued pretraining 说的是让模型继续读领域语料
 ```
 
-## 2. Pretraining 预训练
+## 1. Pretraining 和 continued pretraining
 
-预训练是从大量原始文本里学习语言规律。
-
-典型目标：
+预训练通常是下一个 token 预测：
 
 ```text
-给定前面的 token，预测下一个 token
+给定 token_1 ... token_n，预测 token_{n+1}
 ```
 
-这一步非常贵，需要大量数据和算力。普通团队通常不会从零预训练一个 DeepSeek/GLM/Llama 级别模型。
-
-## 3. Continued Pretraining 继续预训练
-
-继续预训练是在已有 base model 上继续读领域语料。
+从零预训练一个大模型非常贵。普通团队更常见的是 continued pretraining，也就是拿已有 base model 继续读领域语料。
 
 适合：
 
+- 芯片手册。
 - 医学论文。
 - 法律文书。
-- 金融报告。
+- 企业内部技术文档。
 - 代码仓库。
-- 芯片设计文档。
-- 企业内部知识库。
 
-通俗理解：
+它解决的是“模型不熟这个领域的语言和知识”。但它不一定让模型更会听指令。
 
-```text
-继续预训练 = 让模型先多读某个领域的书
-```
+## 2. SFT 训练的是什么
 
-它通常不直接教模型“怎么回答”，而是增强领域知识和语言分布适应。
+SFT，Supervised Fine-Tuning，用的是标准答案。
 
-## 4. SFT 监督微调
-
-SFT，全称 Supervised Fine-Tuning，是用 instruction-response 或 conversation 数据教模型完成任务。
-
-通俗理解：
-
-```text
-SFT = 给模型看标准问答，教它怎么回答
-```
-
-典型样本：
+样例：
 
 ```json
 {
   "messages": [
-    {"role": "user", "content": "把 CUDA 和 CANN 的区别讲给初学者。"},
-    {"role": "assistant", "content": "CUDA 是 NVIDIA GPU 的原生生态，CANN 是华为昇腾 NPU 的原生生态..."}
+    {"role": "user", "content": "解释 CUDA kernel 和 Ascend C 的区别"},
+    {"role": "assistant", "content": "CUDA kernel 面向 NVIDIA GPU..."}
   ]
 }
 ```
 
-常用工具：
+训练目标仍然是预测 assistant 的 token。区别是数据已经整理成“用户问题 -> 理想回答”。
 
-- Transformers Trainer
-- TRL SFTTrainer
-- LLaMA-Factory
-- Axolotl
+SFT 适合：
 
-## 5. LoRA 是什么
+- 教模型固定任务。
+- 教回答风格。
+- 教输出格式。
+- 教领域问答。
 
-全量微调会更新模型所有参数，显存和算力开销很大。
+## 3. LoRA 训练的是什么
 
-LoRA 的思路是：
+LoRA 的论文核心想法是：大模型适配任务时，不一定要更新所有权重，可以训练低秩矩阵。
 
-```text
-冻结原模型
-只训练少量低秩 adapter 参数
-```
-
-通俗理解：
+原本线性层是：
 
 ```text
-全量微调 = 把整个大脑都改一遍
-LoRA = 给大脑外挂一个小插件
+y = W x
 ```
 
-LoRA 常见配置项：
-
-- `r`：低秩矩阵的 rank，越大表达能力越强但越占显存。
-- `lora_alpha`：缩放系数。
-- `target_modules`：把 LoRA 插到哪些层，比如 `q_proj`, `v_proj`, `o_proj`。
-- `lora_dropout`：防止过拟合。
-
-## 6. QLoRA 是什么
-
-QLoRA 通常是在 4-bit 量化 base model 的基础上训练 LoRA adapter。
-
-通俗理解：
+LoRA 冻结 `W`，额外加一个低秩更新：
 
 ```text
-QLoRA = 把大模型压小后，再训练外挂插件
+y = W x + B A x
 ```
 
-优点：
+其中 `A` 和 `B` 很小。训练时只更新它们。
 
-- 更省显存。
-- 单卡也能微调较大模型。
-
-代价：
-
-- 训练和推理配置更复杂。
-- 量化可能带来精度损失。
-
-## 7. DPO/RLHF 是什么
-
-SFT 教模型“怎么答”，但不一定教它“哪个回答更好”。
-
-偏好对齐使用这样的数据：
+直观理解：
 
 ```text
-同一个问题
-chosen answer: 更好的回答
-rejected answer: 更差的回答
+全量微调：改整本书
+LoRA：在书边加一套可学习批注
 ```
 
-DPO 用这种偏好对训练模型，让它更倾向于 chosen answer。
+常见配置：
 
-RLHF 更复杂，通常包括 reward model 和 reinforcement learning。
+```python
+from peft import LoraConfig
 
-通俗理解：
+peft_config = LoraConfig(
+    r=16,
+    lora_alpha=32,
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM",
+    target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+)
+```
+
+`target_modules` 不要乱填。不同模型结构命名不同，Llama/Qwen/GLM 可能不一样。
+
+## 4. QLoRA 解决什么
+
+QLoRA 的目标是进一步省显存：base model 以低比特方式加载，训练 LoRA adapter。
+
+典型理解：
 
 ```text
-SFT  = 看标准答案学习
-DPO  = 看好答案和坏答案的对比学习
-RLHF = 根据奖励信号继续调整行为
+base model: 4-bit
+trainable parameters: LoRA adapter
+optimizer state: 只围绕 adapter
 ```
 
-## 8. 一个微调项目应该怎么组织
+适合单卡资源有限时微调较大模型。
 
-推荐目录：
+代价是：
+
+- 训练配置更复杂。
+- 对硬件和量化库有要求。
+- 量化可能影响质量。
+
+## 5. DPO 训练的是什么
+
+DPO 用偏好数据：
+
+```json
+{
+  "prompt": "解释 ZLUDA 和 CANN 的区别",
+  "chosen": "ZLUDA 是 CUDA 兼容层，CANN 是昇腾 NPU 原生生态...",
+  "rejected": "CANN 就是华为版 ZLUDA..."
+}
+```
+
+它不是教“标准答案长什么样”，而是教模型更偏向 chosen，远离 rejected。
+
+适合：
+
+- SFT 后回答可用，但风格、偏好、拒答边界还不理想。
+- 你有成对偏好数据。
+
+没有偏好数据就别硬做 DPO。
+
+## 6. 怎么选
+
+| 目标 | 优先方案 |
+| --- | --- |
+| 只是想让模型知道新资料 | RAG 或 continued pretraining |
+| 想让模型学会固定问答/格式 | SFT |
+| 显存有限还想微调 | LoRA / QLoRA |
+| 想让模型更偏好某类回答 | DPO |
+| 模型知识经常更新 | RAG，不要急着训练 |
+| 只是输出格式不稳 | Prompt、schema、constrained decoding |
+
+## 7. 训练前 checklist
+
+正式训练前先检查：
+
+- base model 是 base 还是 instruct？
+- tokenizer 和 chat template 是否正确？
+- 训练集和评测集有没有泄露？
+- 是否记录 model revision？
+- 是否固定 random seed？
+- 是否保存训练配置？
+- 是否有人工可读的错误案例分析？
+
+## 8. 训练后的交付物
+
+一个像样的微调项目至少应该有：
 
 ```text
-project
-├── configs/
-├── data/
-├── scripts/
-├── src/
-├── eval/
-├── outputs/
-└── README.md
+adapter 或 checkpoint
+训练配置
+数据版本说明
+评测结果
+失败样例分析
+推理脚本
+README
 ```
 
-最小闭环：
+只上传一个 adapter，别人很难判断你到底做了什么。
 
-1. 准备 50 到 200 条高质量 eval examples。
-2. 直接用 base/instruct model 跑 baseline。
-3. 准备训练集并清洗。
-4. 做 LoRA/QLoRA SFT。
-5. 用同一套 eval examples 对比。
-6. 观察失败样例，决定是否继续清洗数据或调整训练。
+## 参考
 
-## 9. 什么时候不该微调
-
-以下情况先别急着微调：
-
-- 任务知识经常变化，RAG 更合适。
-- 只是格式控制，prompt 和 constrained decoding 可能够用。
-- 数据量很少且质量不稳定。
-- 没有评测集，不知道训练后是否真的变好。
-- 线上部署成本比模型效果更重要。
+- LoRA paper: https://arxiv.org/abs/2106.09685
+- QLoRA paper: https://arxiv.org/abs/2305.14314
+- DPO paper: https://arxiv.org/abs/2305.18290
+- PEFT docs: https://huggingface.co/docs/peft
+- TRL docs: https://huggingface.co/docs/trl
 

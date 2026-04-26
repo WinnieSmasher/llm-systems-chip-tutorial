@@ -1,90 +1,67 @@
-# 06. 集成电路与 AI 芯片方向怎么学
+# 06. 集成电路与 AI 芯片学习路线
 
-这一章不是让你立刻去做芯片设计，而是帮你把“大模型工程”和“芯片/集成电路/AI 加速器”之间的关系建立起来。
+如果你是软件背景，想往“大模型系统 + 芯片/异构计算”方向靠，不用一开始就钻 Verilog。可以先从一个更贴近工程的问题开始：
 
-## 1. 大模型为什么离不开芯片
+> 为什么同一个模型，换一张卡、换一个 runtime、换一个 batch size，速度和显存会差这么多？
 
-大模型计算主要压力来自：
+这个问题会自然把你带到 GPU/NPU、memory bandwidth、算子库、编译器和推理调度。
 
-- 大规模矩阵乘法。
-- Attention 计算。
-- 高带宽显存访问。
+## 1. 大模型主要吃什么硬件资源
+
+LLM 推理和训练的压力主要来自：
+
+- 矩阵乘。
+- Attention。
+- 显存容量。
+- 显存带宽。
+- KV cache。
 - 多卡通信。
-- KV Cache 存储和调度。
-- 长上下文带来的显存与带宽压力。
+- kernel launch 和算子调度。
 
-所以大模型性能不只取决于模型结构，也取决于硬件：
+参数量只是其中一项。很多时候瓶颈不是“算不动”，而是“数据搬得太慢”。
 
-```text
-算力 FLOPS
-显存容量
-显存带宽
-片上缓存
-互联带宽
-编译器和算子库
-推理调度系统
-```
+## 2. 软件同学先补哪些概念
 
-## 2. 从软件角度看 AI 芯片
+### Memory hierarchy
 
-如果你是软件背景，建议先从这几个层次理解芯片生态：
+先理解：
 
 ```text
-应用层: Chatbot, RAG, Agent, code generation
-框架层: PyTorch, TensorFlow, MindSpore
-编译/运行时: CUDA, CANN, ROCm, XLA, TVM
-算子库: cuDNN, cuBLAS, CANN operators
-硬件层: GPU, NPU, TPU, ASIC
+register
+shared memory / local cache
+L2 cache
+HBM / global memory
+CPU memory
 ```
 
-你不需要一开始就懂 RTL/Verilog，也可以先从“模型如何跑到硬件上”切入。
+很多优化本质是在减少慢内存访问。
 
-## 3. 集成电路方向的基础模块
+### Compute-bound vs memory-bound
 
-如果后续想系统学习芯片方向，可以按下面路线：
+如果算术单元很忙，是 compute-bound。  
+如果算术单元等数据，是 memory-bound。
 
-1. 数字逻辑：组合逻辑、时序逻辑、FSM。
-2. 计算机组成：流水线、cache、memory hierarchy、ISA。
-3. 并行计算：SIMD、SIMT、thread/block、数据并行。
-4. 硬件描述语言：Verilog/SystemVerilog。
-5. EDA 基础：综合、布局布线、时序分析。
-6. AI 加速器：矩阵乘阵列、systolic array、片上缓存、数据复用。
-7. 编译器和 runtime：算子 lowering、kernel scheduling、memory planning。
-
-## 4. 软件同学最应该补的芯片概念
-
-### Memory bandwidth
-
-大模型很多时候不是算力不够，而是数据搬运太慢。
-
-```text
-compute-bound: 算得慢
-memory-bound: 搬数据慢
-```
+大模型里的很多算子，尤其是某些 elementwise、normalization、attention 相关操作，会受 memory IO 影响。
 
 ### Tensor Core / AI Core
 
-这些是专门加速矩阵乘的硬件单元。NVIDIA 叫 Tensor Core，昇腾有 AI Core。
+NVIDIA 有 Tensor Core。昇腾有 AI Core。它们都围绕矩阵计算做硬件加速，但指令、数据布局、编程模型和工具链不同。
 
 ### Operator fusion
 
-把多个小算子融合成一个大算子，减少中间结果写回显存。
+把多个算子融合，减少中间结果落显存。
 
 例如：
 
 ```text
-MatMul -> Add -> ReLU
+MatMul -> Bias -> GeLU
 ```
 
-可以融合成一个更高效的执行单元。
-
-### Quantization
-
-低精度计算可以减少显存和带宽压力。比如从 BF16 到 INT8/INT4。
+如果每一步都写回显存，会浪费带宽。fusion 能减少搬运。
 
 ### Communication
 
-多卡训练和推理绕不开通信：
+多卡训练/推理离不开通信：
 
 - data parallel
 - tensor parallel
@@ -93,37 +70,82 @@ MatMul -> Add -> ReLU
 - all-gather
 - NCCL/HCCL
 
-## 5. 大模型系统与芯片之间的连接点
+模型越大，通信越可能成为瓶颈。
 
-如果你想做交叉方向，可以关注：
+## 3. 该怎么学 CUDA
 
-- Attention 优化。
-- KV Cache 管理。
-- 低比特量化。
-- MoE 推理调度。
-- 多卡通信优化。
-- 编译器图优化。
-- 自定义算子开发。
-- AI 芯片上的 LLM serving。
-- GPU/NPU 性能建模。
+不要上来就写复杂 kernel。先理解 CUDA 的几个基本词：
 
-## 6. 一个务实学习顺序
+- host/device。
+- thread/block/grid。
+- global memory/shared memory/register。
+- stream/event。
+- kernel launch。
+- memory coalescing。
 
-1. 先会用 PyTorch/Transformers 跑模型。
-2. 再学 vLLM，理解 KV Cache 和 continuous batching。
-3. 学 CUDA 基本概念：thread、block、shared memory、stream。
-4. 对比 CANN：AscendCL、Ascend C、ATC、算子库。
-5. 学 ONNX 和模型转换。
-6. 看一个自定义算子例子。
-7. 做一个小实验：同一模型在不同 batch size、context length 下测延迟和显存。
+小练习：
 
-## 7. 可以做的项目题目
+1. vector add。
+2. matrix transpose。
+3. tiled matrix multiplication。
+4. reduction。
+5. 用 profiler 看 memory throughput。
 
-- 基于 vLLM 的本地 LLM 推理服务压测。
-- LoRA 微调一个芯片文档问答模型。
-- 比较 FP16、INT8、INT4 量化对模型质量和延迟的影响。
-- 整理 CUDA 与 CANN 的 API 对照表。
-- 实现一个简单 ONNX -> 推理后端部署 demo。
-- 阅读并复现 FlashAttention 的核心思想。
-- 分析 KV Cache 在不同并发下的显存占用。
+这些练习比“看完一堆术语”有用。
+
+## 4. 该怎么学 CANN/昇腾
+
+从软件角度，先把链路跑通：
+
+```text
+PyTorch 模型
+  -> ONNX
+  -> ATC
+  -> OM
+  -> AscendCL 推理
+```
+
+再看：
+
+- torch_npu 如何让 PyTorch 接昇腾。
+- MindSpeed-LLM 怎样组织大模型训练/微调。
+- Ascend C 自定义算子怎么写。
+- HCCL 怎样做多卡通信。
+
+不要一上来就把 CANN 想成 CUDA 的替身。它有自己的模型转换、runtime、算子和编译链路。
+
+## 5. 大模型系统和芯片的交叉题
+
+适合做成学习项目：
+
+- KV cache 显存建模。
+- vLLM continuous batching 压测。
+- FlashAttention 阅读和复现。
+- FP16/INT8/INT4 量化质量对比。
+- CUDA 与 CANN runtime API 对照。
+- ONNX 导出和后端转换失败案例整理。
+- 自定义算子性能分析。
+- 多卡通信中 batch、sequence length、tensor parallel 的影响。
+
+## 6. 推荐学习顺序
+
+```text
+阶段 1：Transformers 跑通模型推理
+阶段 2：vLLM 跑通服务和压测
+阶段 3：理解 KV Cache 和 attention 性能瓶颈
+阶段 4：学 CUDA 基础 kernel
+阶段 5：看 ONNX 和模型转换
+阶段 6：对比 CANN/AscendCL/Ascend C
+阶段 7：做一个小型性能实验并写报告
+```
+
+这条路比“同时学 CUDA、芯片设计、微调、部署”稳得多。
+
+## 参考
+
+- NVIDIA CUDA C Programming Guide: https://docs.nvidia.com/cuda/cuda-c-programming-guide/
+- vLLM docs: https://docs.vllm.ai/
+- Huawei Ascend CANN: https://www.hiascend.com/en/cann
+- MindSpeed-LLM: https://github.com/Ascend/MindSpeed-LLM
+- FlashAttention paper: https://arxiv.org/abs/2205.14135
 

@@ -1,164 +1,212 @@
-# 01. CUDA、ZLUDA 与昇腾 CANN 的区别
+# 01. CUDA、ZLUDA 与昇腾 CANN
 
-这一章回答一个最容易混的问题：
-
-> 华为昇腾是不是 ZLUDA？CUDA、ZLUDA、CANN 到底是什么关系？
-
-结论先放前面：
+先把结论讲死一点：
 
 ```text
-CUDA  是 NVIDIA GPU 的原生计算生态
-ZLUDA 是 CUDA 兼容层，试图让 CUDA 程序跑到非 NVIDIA GPU 上
-CANN  是华为昇腾 Ascend NPU 的原生 AI 计算生态
+CUDA 是 NVIDIA GPU 的原生开发和运行生态。
+ZLUDA 是 CUDA compatibility layer，目标是让部分 CUDA 程序跑在非 NVIDIA GPU 上。
+CANN 是华为 Ascend NPU 的原生软件栈。
 ```
 
-## 1. CUDA 是什么
+所以“华为昇腾是不是 ZLUDA”这个问题，答案是：不是。它们甚至不是同一层东西。
 
-CUDA 是 NVIDIA 给 GPU 准备的一整套计算平台。它不只是一个语法，而是一套从编程到运行的生态：
+## 1. 先从一段 PyTorch 代码看底层路线
 
-- CUDA Runtime / Driver API：管理 GPU、显存、stream、kernel launch。
-- CUDA C++ kernel：开发者直接写 GPU 并行计算代码。
-- cuBLAS：高性能矩阵计算库。
-- cuDNN：深度学习算子库。
-- NCCL：多 GPU 通信库。
-
-在深度学习中，你平时写：
+你写：
 
 ```python
-x = x.cuda()
+import torch
+
+x = torch.randn(4096, 4096, device="cuda")
+y = x @ x
 ```
 
-背后大致是：
+如果机器上是 NVIDIA GPU，底层大致会走：
 
 ```text
-PyTorch
-  -> CUDA
-  -> cuDNN / cuBLAS / NCCL
+PyTorch op
+  -> CUDA runtime / CUDA driver
+  -> cuBLAS 或对应 CUDA kernel
   -> NVIDIA GPU
 ```
 
-所以 CUDA 可以理解为 **NVIDIA GPU 的原生语言和工具链**。
+这里的 CUDA 不是“一个库名”那么简单，它包括：
 
-## 2. ZLUDA 是什么
+- host/device 编程模型。
+- kernel launch 语义，例如 `kernel<<<grid, block>>>()`。
+- memory hierarchy，例如 global memory、shared memory、register。
+- stream/event，用来组织异步执行。
+- cuBLAS、cuDNN、NCCL 等高性能库。
 
-ZLUDA 不是硬件，也不是华为生态的一部分。
+NVIDIA 官方 CUDA C Programming Guide 讲的就是这套东西：程序怎样在 host 端调度 device 端的并行计算，数据怎样在不同内存层级之间移动。
 
-它更像一个兼容翻译层：
+## 2. ZLUDA 在哪一层
+
+ZLUDA 的思路不是“发明一种新芯片”，而是插在 CUDA 程序和非 NVIDIA 后端之间。
 
 ```text
-原本调用 CUDA 的程序
-  -> ZLUDA 假装自己是 CUDA
-  -> 转到底层非 NVIDIA GPU 后端
+CUDA application
+  -> ZLUDA
+  -> non-NVIDIA backend
+  -> non-NVIDIA GPU
 ```
 
-ZLUDA 解决的问题是：
+它的目标是让一部分原本依赖 CUDA 的程序，尽量少改代码就能运行在非 NVIDIA GPU 上。
 
-> 我有一个 CUDA 程序，但我没有 NVIDIA GPU，能不能少改代码，在别的 GPU 上跑？
+这件事很难，因为真实 CUDA 程序可能依赖：
 
-关键词：
+- CUDA runtime API。
+- driver API。
+- cuBLAS/cuDNN/NVRTC 等库行为。
+- 特定 GPU 架构和 PTX/SASS 假设。
+- 非公开或边界行为。
 
-- CUDA compatibility layer
-- drop-in replacement
-- non-NVIDIA GPU
+所以看 ZLUDA 时不要把它理解成“所有 CUDA 程序无痛迁移”。更保守的说法是：
 
-但是 CUDA 生态非常庞大，真实项目里可能遇到库缺失、kernel 不兼容、性能不稳定等问题。因此 ZLUDA 更适合理解为“兼容尝试”，不是通用万能迁移方案。
+> ZLUDA 是一个 CUDA 兼容层项目，用来探索和支持部分 CUDA workloads 在非 NVIDIA GPU 上运行。
 
-## 3. 华为昇腾 CANN 是什么
+## 3. 华为昇腾 CANN 在哪一层
 
-华为昇腾 Ascend 是 NPU，不是 NVIDIA GPU，也不是 AMD GPU。
+华为 Ascend 是 NPU。它不是 NVIDIA GPU，也不是“靠 ZLUDA 伪装 CUDA”。
 
-它的原生软件栈叫 CANN。可以粗略类比为：
-
-```text
-NVIDIA GPU : CUDA
-Huawei Ascend NPU : CANN
-```
-
-CANN 生态里常见组件：
-
-- AscendCL / ACL：控制设备、内存、stream、模型加载与执行。
-- ACL Runtime：AscendCL 里面更底层的运行时能力。
-- Ascend C：写自定义算子，地位有点像 CUDA kernel，但不是 CUDA。
-- ATC：模型转换工具，例如把 ONNX 转成昇腾可执行的 `.om` 模型。
-- CANN 算子库：高性能 Conv、MatMul、LayerNorm、Softmax 等算子实现。
-
-一条典型昇腾推理链路是：
+昇腾常见路线是：
 
 ```text
-PyTorch / ONNX 模型
-  -> ATC 转换
-  -> .om 模型
-  -> AscendCL 加载执行
-  -> CANN 算子库
-  -> Ascend NPU
-```
-
-如果是 PyTorch 训练或微调，常见路线更像：
-
-```text
-PyTorch
-  -> torch_npu
+PyTorch / MindSpore
+  -> torch_npu / MindFormers / MindSpeed-LLM
   -> CANN
   -> Ascend NPU
 ```
 
-## 4. CUDA kernel 与 Ascend C 的关系
+如果是静态模型部署，路线可能是：
 
-如果现成算子不够用，你可能需要写自定义算子。
+```text
+PyTorch / ONNX model
+  -> ATC
+  -> .om model
+  -> AscendCL application
+  -> Ascend NPU
+```
 
-在 NVIDIA 上：
+CANN 是总的软件栈，里面常见组件包括：
+
+| 组件 | 作用 | NVIDIA 生态里大概对应什么 |
+| --- | --- | --- |
+| AscendCL / ACL | 设备、内存、stream、模型加载和执行 | CUDA Runtime / Driver API 的一部分角色 |
+| ACL Runtime | 更底层的 context、stream、memory、event 管理 | CUDA runtime 相关能力 |
+| ATC | 模型转换和图优化，生成 `.om` | TensorRT / ONNX 后端转换的某些角色 |
+| CANN operators | 高性能算子库 | cuDNN / cuBLAS |
+| Ascend C | 自定义算子开发 | CUDA kernel 的位置相似，但不是同一种编程模型 |
+| HCCL | 多卡通信 | NCCL |
+
+这个表只是帮助定位，不是说 API 能一一替换。
+
+## 4. AscendCL 到底在做什么
+
+推理部署时，AscendCL 程序通常要做这些事：
+
+```text
+初始化 ACL
+  -> 选择 device
+  -> 创建 context / stream
+  -> 分配 device memory
+  -> 加载 .om 模型
+  -> 准备输入 tensor
+  -> 执行模型
+  -> 拿回输出
+  -> 释放资源
+```
+
+非常粗的伪代码：
 
 ```cpp
-__global__ void my_kernel(...) {
-    ...
+aclInit(nullptr);
+aclrtSetDevice(0);
+aclrtCreateContext(&context, 0);
+aclrtCreateStream(&stream);
+
+aclmdlLoadFromFile("model.om", &modelId);
+aclmdlExecute(modelId, inputDataset, outputDataset);
+
+aclmdlUnload(modelId);
+aclrtDestroyStream(stream);
+aclrtDestroyContext(context);
+aclrtResetDevice(0);
+aclFinalize();
+```
+
+这类 API 离业务模型很远，更像“你亲自把数据搬到设备上，让设备执行，再把结果拿回来”。
+
+## 5. Ascend C 和 CUDA kernel 的关系
+
+CUDA kernel 是 NVIDIA GPU 上的自定义并行计算代码。
+
+```cpp
+__global__ void add(float* x, float* y, float* out) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    out[i] = x[i] + y[i];
 }
 ```
 
-这是 CUDA kernel。
+Ascend C 是昇腾生态里写自定义算子的路线。它也要考虑：
 
-在昇腾上，对应方向是 Ascend C 自定义算子。它们定位相似，都是为了实现底层高性能计算，但编程模型、内存层级、硬件执行单元和工具链都不同。
+- 数据怎么切分。
+- 哪些数据放片上缓存。
+- 算子怎么并行。
+- 输入输出 tensor shape 怎么处理。
+- 编译和注册后怎么接入模型图。
 
-所以不能说：
+但它不是 CUDA。不要把 CUDA kernel 直接搬过去。
+
+更准确的理解是：
 
 ```text
-Ascend C = CUDA
+CUDA kernel 解决 NVIDIA GPU 上的自定义计算。
+Ascend C custom operator 解决 Ascend NPU 上的自定义算子。
 ```
 
-更准确是：
+## 6. 这几个词怎么放进脑子里
+
+把它们按层级排：
 
 ```text
-Ascend C 在昇腾生态中的位置，类似 CUDA kernel 在 NVIDIA 生态中的位置。
+模型框架层: PyTorch, TensorFlow, MindSpore
+训练/微调层: Transformers, PEFT, TRL, DeepSpeed, MindSpeed-LLM
+硬件运行层: CUDA, ROCm/HIP, CANN
+算子和通信: cuBLAS/cuDNN/NCCL, CANN operators/HCCL
+硬件层: NVIDIA GPU, AMD GPU, Ascend NPU
+兼容层: ZLUDA 这种项目插在 CUDA application 和非 NVIDIA 后端之间
 ```
 
-## 5. 最通俗的类比
+ZLUDA 不等于 CUDA，也不等于 CANN。  
+CANN 不等于 ONNX，也不等于 PyTorch。  
+PyTorch 可以接 CUDA，也可以通过扩展接 NPU 后端。
 
-把硬件看成不同国家：
+## 7. 简历里怎么写
 
-- NVIDIA GPU 说 CUDA 语系。
-- AMD GPU 说 ROCm/HIP 语系。
-- 华为 Ascend NPU 说 CANN 语系。
-
-ZLUDA 是一个翻译器，试图让“说 CUDA 的程序”在非 NVIDIA GPU 上跑。
-
-昇腾不是靠 ZLUDA，而是走自己的 CANN 路线。
-
-## 6. 简历中怎么写才准确
-
-不准确：
+别写：
 
 ```text
 熟悉昇腾 ZLUDA
 ```
 
-准确一点：
+可以写：
 
 ```text
-了解 NVIDIA CUDA 与华为昇腾 CANN 生态差异，熟悉 GPU/NPU 异构计算基本概念。
+了解 NVIDIA CUDA、ZLUDA 兼容层与华为昇腾 CANN 的生态差异，能够区分模型框架、runtime、算子库和硬件后端在大模型部署链路中的作用。
 ```
 
-更工程化：
+如果你真的做过实验，可以写得更具体：
 
 ```text
-了解 PyTorch 模型在 Ascend NPU 上通过 torch_npu、CANN、AscendCL 进行适配与推理部署的基本流程。
+基于 PyTorch/Transformers 跑通本地 LLM 推理 baseline，并整理 CUDA 与 CANN 在设备管理、内存管理、算子库和自定义算子开发上的差异。
 ```
+
+## 参考
+
+- NVIDIA CUDA C Programming Guide: https://docs.nvidia.com/cuda/cuda-c-programming-guide/
+- ZLUDA: https://github.com/vosen/ZLUDA
+- Huawei Ascend CANN: https://www.hiascend.com/en/cann
+- Ascend documentation: https://www.hiascend.com/document
+- MindSpeed-LLM: https://github.com/Ascend/MindSpeed-LLM
 

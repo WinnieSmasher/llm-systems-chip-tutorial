@@ -1,45 +1,84 @@
 # 00. 学习地图
 
-这份教程围绕一条主线展开：
+这份教程按一条工程链路组织，不按名词表组织。
 
 ```text
-模型从 Hugging Face 来
-数据决定模型学什么
-训练/微调改变模型能力
-推理优化决定模型跑得快不快
-CUDA/CANN 决定模型跑在哪类硬件上
+Hugging Face 模型
+  -> PyTorch/Transformers 推理 baseline
+  -> 数据集和评测集
+  -> SFT / LoRA / QLoRA / DPO
+  -> 推理优化
+  -> CUDA / CANN / vLLM 等部署后端
+  -> 监控和下一轮迭代
 ```
 
-## 你需要先建立的直觉
+## 第一层：模型从哪里来
 
-大模型项目不是只有“调 API”这一件事。完整链路通常包括：
+先学 Hugging Face Hub 和 Transformers：
 
-1. 选择模型：DeepSeek、GLM、Qwen、Llama 等模型家族中选合适的 base/instruct 模型。
-2. 准备数据：instruction data、domain corpus、preference data、evaluation set。
-3. 训练或微调：SFT、LoRA、QLoRA、continued pretraining、DPO/RLHF。
-4. 评测：准确率、困惑度、人工偏好、任务指标、延迟、吞吐、显存占用。
-5. 推理优化：量化、KV Cache、FlashAttention、vLLM、TensorRT-LLM、CANN 部署。
-6. 部署迭代：上线服务、收集反馈、清洗新数据、再次训练。
+- 模型 repo 里有哪些文件。
+- tokenizer 和 chat template 为什么重要。
+- `AutoModelForCausalLM` 和 `AutoTokenizer` 怎么加载模型。
+- model card 里的 license 和限制怎么读。
 
-## 两个关键问题
+对应章节：
 
-### 问题一：模型是什么？
+- [02. PyTorch、ONNX、safetensors 和 OM](02-model-formats.md)
+- [03. Hugging Face 项目从哪里开始](03-huggingface-workflow.md)
 
-在 Hugging Face 上，一个模型通常不是一个单独文件，而是一组文件：
+## 第二层：模型怎么被训练和微调
 
-- `config.json`：模型结构配置。
-- `tokenizer.json` / tokenizer files：分词器。
-- `model.safetensors`：模型权重。
-- `generation_config.json`：生成参数。
-- `README.md` / model card：模型说明、license、训练信息。
+把这些词放到正确位置：
 
-### 问题二：硬件生态是什么？
+- continued pretraining：继续读领域语料。
+- SFT：学 instruction-response。
+- LoRA：少量 adapter 参数更新。
+- QLoRA：低比特 base model + LoRA。
+- DPO：用 chosen/rejected 偏好样本做对齐。
 
-同一个模型可以跑在不同硬件上，但底层路线不同：
+对应章节：
 
-- NVIDIA GPU：PyTorch -> CUDA -> cuDNN/cuBLAS/NCCL -> GPU。
-- AMD GPU：PyTorch -> ROCm/HIP -> AMD GPU。
-- 华为昇腾 NPU：PyTorch/MindSpore -> torch_npu/MindFormers -> CANN -> Ascend NPU。
+- [04. SFT、LoRA、QLoRA、DPO 到底在训什么](04-training-finetuning-alignment.md)
 
-ZLUDA 不属于华为昇腾生态，它是 CUDA compatibility layer，主要用于让部分 CUDA 程序尝试跑在非 NVIDIA GPU 上。
+## 第三层：模型怎么跑得快
+
+推理优化不是“换个框架就快”。你要看：
+
+- prefill / decode。
+- KV cache。
+- continuous batching。
+- quantization。
+- attention kernel。
+- serving framework。
+
+对应章节：
+
+- [05. 推理优化和部署](05-inference-optimization.md)
+
+## 第四层：模型跑在哪种硬件生态上
+
+这里最容易混：
+
+- CUDA 是 NVIDIA GPU 原生生态。
+- ZLUDA 是 CUDA 兼容层。
+- CANN 是华为 Ascend NPU 原生生态。
+- ONNX 是模型交换格式，不是硬件后端。
+
+对应章节：
+
+- [01. CUDA、ZLUDA 与昇腾 CANN](01-hardware-stacks.md)
+- [06. 集成电路与 AI 芯片学习路线](06-chip-domain-roadmap.md)
+
+## 最小实践路线
+
+建议不要光读。按这个顺序做：
+
+1. 用 `examples/minimal_inference.py` 跑一个小模型。
+2. 建 20 条固定评测样例。
+3. 用 `examples/minimal_sft_lora.py` 跑一个小 LoRA smoke test。
+4. 用 vLLM 起一个 OpenAI-compatible 服务。
+5. 测 input length、output length、concurrency 对延迟和显存的影响。
+6. 写一页实验报告。
+
+最后能写成简历的不是“熟悉很多名词”，而是你真的测过、对比过、解释过。
 
