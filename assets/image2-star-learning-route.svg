@@ -1,1 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780"><rect width="1400" height="780" fill="#fbfbfb"/><text x="700" y="70" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="40" font-weight="700" fill="#111827">8-Week Star-Driven Learning Route</text><text x="700" y="108" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="18" fill="#475569">turn repos into deliverables: notes, labs, benchmarks, diagrams, and PR targets</text><g font-family="Inter,Segoe UI,Arial"><line x1="110" y1="250" x2="1290" y2="250" stroke="#94a3b8" stroke-width="6"/><circle cx="130" cy="250" r="24" fill="#2563eb"/><text x="130" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">0</text><text x="130" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Input Hygiene</text><circle cx="290" cy="250" r="24" fill="#7c3aed"/><text x="290" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">1</text><text x="290" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Agent Runtime</text><circle cx="450" cy="250" r="24" fill="#9333ea"/><text x="450" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">2</text><text x="450" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Coding Harness</text><circle cx="610" cy="250" r="24" fill="#16a34a"/><text x="610" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">3</text><text x="610" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">RAG Apps</text><circle cx="770" cy="250" r="24" fill="#f97316"/><text x="770" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">4</text><text x="770" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">CUDA/ZLUDA</text><circle cx="930" cy="250" r="24" fill="#0f766e"/><text x="930" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">5</text><text x="930" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Optimization</text><circle cx="1090" cy="250" r="24" fill="#0284c7"/><text x="1090" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">6</text><text x="1090" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Research Tools</text><circle cx="1250" cy="250" r="24" fill="#dc2626"/><text x="1250" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">7</text><text x="1250" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Safety Boundary</text><rect x="70" y="385" width="1260" height="250" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/><text x="115" y="430" font-size="22" font-weight="700" fill="#111827">Deliverable ladder</text><text x="115" y="475" font-size="18" fill="#334155">0. Convert documents -> Markdown / JSON and record failure cases.</text><text x="115" y="510" font-size="18" fill="#334155">1. Read agent runtime as state machine + tool boundary, not as magic.</text><text x="115" y="545" font-size="18" fill="#334155">2. Build one RAG / memory / document QA baseline with fixed evaluation samples.</text><text x="115" y="580" font-size="18" fill="#334155">3. Read one CUDA or scientific-computing kernel and explain memory access.</text><text x="115" y="615" font-size="18" fill="#334155">4. Turn the best notes into source-reading docs and small PR candidates.</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780">
+  <rect width="1400" height="780" fill="#fbfbfb"/>
+  <text x="700" y="70" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="40" font-weight="700" fill="#111827">8-Week Capability Roadmap</text>
+  <text x="700" y="108" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="18" fill="#475569">turn source projects into deliverables: notes, labs, benchmarks, diagrams, and contribution targets</text>
+
+  <g font-family="Inter,Segoe UI,Arial">
+    <line x1="110" y1="250" x2="1290" y2="250" stroke="#94a3b8" stroke-width="6"/>
+
+    <circle cx="130" cy="250" r="24" fill="#2563eb"/>
+    <text x="130" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">0</text>
+    <text x="130" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Input Hygiene</text>
+    <text x="130" y="345" text-anchor="middle" font-size="14" fill="#475569">clean sources</text>
+
+    <circle cx="290" cy="250" r="24" fill="#7c3aed"/>
+    <text x="290" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">1</text>
+    <text x="290" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Agent Runtime</text>
+    <text x="290" y="345" text-anchor="middle" font-size="14" fill="#475569">state + tools</text>
+
+    <circle cx="450" cy="250" r="24" fill="#9333ea"/>
+    <text x="450" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">2</text>
+    <text x="450" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Coding Workflow</text>
+    <text x="450" y="345" text-anchor="middle" font-size="14" fill="#475569">tests + review</text>
+
+    <circle cx="610" cy="250" r="24" fill="#db2777"/>
+    <text x="610" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">3</text>
+    <text x="610" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">RAG Eval</text>
+    <text x="610" y="345" text-anchor="middle" font-size="14" fill="#475569">retrieval checks</text>
+
+    <circle cx="770" cy="250" r="24" fill="#ea580c"/>
+    <text x="770" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">4</text>
+    <text x="770" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Kernel Basics</text>
+    <text x="770" y="345" text-anchor="middle" font-size="14" fill="#475569">memory access</text>
+
+    <circle cx="930" cy="250" r="24" fill="#16a34a"/>
+    <text x="930" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">5</text>
+    <text x="930" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Benchmarking</text>
+    <text x="930" y="345" text-anchor="middle" font-size="14" fill="#475569">metrics + baselines</text>
+
+    <circle cx="1090" cy="250" r="24" fill="#0891b2"/>
+    <text x="1090" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">6</text>
+    <text x="1090" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Research Writing</text>
+    <text x="1090" y="345" text-anchor="middle" font-size="14" fill="#475569">claims + figures</text>
+
+    <circle cx="1250" cy="250" r="24" fill="#475569"/>
+    <text x="1250" y="255" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">7</text>
+    <text x="1250" y="315" text-anchor="middle" font-size="18" font-weight="700" fill="#111827">Safety Review</text>
+    <text x="1250" y="345" text-anchor="middle" font-size="14" fill="#475569">publishable outputs</text>
+
+    <rect x="120" y="465" width="1160" height="145" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="700" y="508" text-anchor="middle" font-size="24" font-weight="700" fill="#111827">Weekly output rule</text>
+    <text x="700" y="548" text-anchor="middle" font-size="18" fill="#334155">Every week produces one visible artifact: a note, a diagram, a tiny lab, a benchmark, or a review checklist.</text>
+    <text x="700" y="586" text-anchor="middle" font-size="18" fill="#334155">Repo names stay in references; chapter titles describe capabilities.</text>
+
+    <text x="700" y="700" text-anchor="middle" font-size="18" fill="#475569">Goal: learn how systems work deeply enough to explain, test, modify, and contribute.</text>
+  </g>
+</svg>

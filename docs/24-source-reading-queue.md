@@ -1,78 +1,258 @@
 # 24. Source Reading Queue
 
-这页把 star 列表转成源码阅读队列。每个项目只读一个明确问题，避免陷入“收藏越多越焦虑”。
+这页不是项目清单，而是源码阅读题单。读源码前先定问题，否则很容易从 README 看到 issue，再从 issue 跳到另一个工具，最后什么都没留下。
 
-## 第一队列：直接服务 LLM systems/chip 主线
+每个题目只要求一个小输出：一页笔记、一张图、一个 checklist 或一个最小实验。
 
-| Repo | 读什么 | 输出 |
-| --- | --- | --- |
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [anthropics/skills](https://github.com/anthropics/skills) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [microsoft/markitdown](https://github.com/microsoft/markitdown) | PDF/Markdown/引用/论文工作流/知识抽取 | 一页架构/实验笔记 |
-| [Comfy-Org/ComfyUI](https://github.com/Comfy-Org/ComfyUI) | RAG、memory、metadata、bot、可视化工作流 | 一页架构/实验笔记 |
-| [openai/codex](https://github.com/openai/codex) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [opendatalab/MinerU](https://github.com/opendatalab/MinerU) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [chatchat-space/Langchain-Chatchat](https://github.com/chatchat-space/Langchain-Chatchat) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [PDFMathTranslate/PDFMathTranslate](https://github.com/PDFMathTranslate/PDFMathTranslate) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [HKUDS/CLI-Anything](https://github.com/HKUDS/CLI-Anything) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [bytedance/UI-TARS-desktop](https://github.com/bytedance/UI-TARS-desktop) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [supermemoryai/supermemory](https://github.com/supermemoryai/supermemory) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [vosen/ZLUDA](https://github.com/vosen/ZLUDA) | 性能瓶颈、kernel/runtime、硬件生态、benchmark | 一页架构/实验笔记 |
-| [xlite-dev/LeetCUDA](https://github.com/xlite-dev/LeetCUDA) | 性能瓶颈、kernel/runtime、硬件生态、benchmark | 一页架构/实验笔记 |
-| [Future-House/paper-qa](https://github.com/Future-House/paper-qa) | PDF/Markdown/引用/论文工作流/知识抽取 | 一页架构/实验笔记 |
-| [funstory-ai/BabelDOC](https://github.com/funstory-ai/BabelDOC) | PDF/Markdown/引用/论文工作流/知识抽取 | 一页架构/实验笔记 |
-| [modelcontextprotocol/rust-sdk](https://github.com/modelcontextprotocol/rust-sdk) | 资料入口、工具配置、工程习惯 | 一页架构/实验笔记 |
-| [wyf3/llm_related](https://github.com/wyf3/llm_related) | RAG、memory、metadata、bot、可视化工作流 | 一页架构/实验笔记 |
-| [agentclientprotocol/agent-client-protocol](https://github.com/agentclientprotocol/agent-client-protocol) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
+## A. Agent runtime
 
-## 第二队列：工程视野和方法迁移
+### A1. Agent 的状态机在哪里
 
-| Repo | 读什么 | 输出 |
-| --- | --- | --- |
-| [obra/superpowers](https://github.com/obra/superpowers) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [papers-we-love/papers-we-love](https://github.com/papers-we-love/papers-we-love) | PDF/Markdown/引用/论文工作流/知识抽取 | 一页架构/实验笔记 |
-| [code-yeongyu/oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [vnpy/vnpy](https://github.com/vnpy/vnpy) | 回测、约束建模、优化、事件驱动系统 | 一页架构/实验笔记 |
-| [jivoi/awesome-osint](https://github.com/jivoi/awesome-osint) | 系统边界、逆向分析、移动端安全、合规意识 | 一页架构/实验笔记 |
-| [iBotPeaches/Apktool](https://github.com/iBotPeaches/Apktool) | 系统边界、逆向分析、移动端安全、合规意识 | 一页架构/实验笔记 |
-| [coleam00/Archon](https://github.com/coleam00/Archon) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [Leey21/awesome-ai-research-writing](https://github.com/Leey21/awesome-ai-research-writing) | PDF/Markdown/引用/论文工作流/知识抽取 | 一页架构/实验笔记 |
-| [kaixindelele/ChatPaper](https://github.com/kaixindelele/ChatPaper) | PDF/Markdown/引用/论文工作流/知识抽取 | 一页架构/实验笔记 |
-| [langbot-app/LangBot](https://github.com/langbot-app/LangBot) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [blader/humanizer](https://github.com/blader/humanizer) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
-| [mytechnotalent/Reverse-Engineering](https://github.com/mytechnotalent/Reverse-Engineering) | 系统边界、逆向分析、移动端安全、合规意识 | 一页架构/实验笔记 |
-| [google/or-tools](https://github.com/google/or-tools) | 性能瓶颈、kernel/runtime、硬件生态、benchmark | 一页架构/实验笔记 |
-| [qazbnm456/awesome-web-security](https://github.com/qazbnm456/awesome-web-security) | 系统边界、逆向分析、移动端安全、合规意识 | 一页架构/实验笔记 |
-| [yutiansut/QUANTAXIS](https://github.com/yutiansut/QUANTAXIS) | 回测、约束建模、优化、事件驱动系统 | 一页架构/实验笔记 |
-| [Piebald-AI/claude-code-system-prompts](https://github.com/Piebald-AI/claude-code-system-prompts) | agent loop、skill、MCP、状态、工具边界 | 一页架构/实验笔记 |
+阅读问题：
 
-## 具体阅读方法
+- 一个任务从用户输入到工具调用，中间有哪些状态？
+- 状态存在内存、文件、数据库还是会话上下文里？
+- 任务失败后如何恢复？
 
-每个 repo 只回答 6 个问题：
+输出物：
 
-1. 它解决的核心问题是什么？
-2. 用户入口在哪里：CLI、API、Web UI、SDK 还是配置文件？
-3. 状态存在哪里：内存、文件、数据库、队列还是远端服务？
-4. 最核心的数据结构或执行循环是什么？
-5. 它怎么测试、benchmark 或验证正确性？
-6. 哪个部分可以迁移到自己的项目里？
+- 一张 `idle -> planning -> acting -> verifying -> done/blocked` 状态图。
+- 一段说明：哪些状态适合持久化，哪些状态只适合留在当前上下文。
 
-## 三个优先贡献方向
+参考来源：Codex、OpenCode、Superpowers、Archon。
 
-### 1. gprMax 工程质量线
+### A2. Tool boundary 怎么设计
 
-适合原因：和你的研究背景、GPU/数值模拟、开源贡献都贴近。优先做小而稳的测试、CI、重复代码清理，不要一上来改多 GPU 大架构。
+阅读问题：
 
-### 2. LLM 文档处理线
+- 工具调用前如何确认权限和风险？
+- 工具返回内容会不会被当成指令？
+- 文件、网页、PDF、issue 评论进入上下文时有什么隔离规则？
 
-围绕 MinerU、MarkItDown、PDFMathTranslate、BabelDOC 做横向比较。重点不是“哪个工具最强”，而是复杂 PDF 到 LLM-ready Markdown 的失败边界。
+输出物：
 
-### 3. Agent workflow 线
+- 一份 tool boundary checklist。
+- 3 个测试样例：安全输入、恶意网页文本、含敏感字段的工具输出。
 
-围绕 Codex、skills、MCP、opencode、Archon，总结一个可复盘的 agent 开发流程：需求澄清、计划、实现、测试、review、commit、CI。
+参考来源：Anthropic Skills、MCP、Codex tool policies。
 
-## 不建议投入主线的项目
+### A3. Skill 和 prompt 模板有什么区别
 
-账号注册、激活、抢票、代理中转、token 管理这类项目，即使 star 数高，也不适合放进公开学习路线。它们最多用于识别安全、合规、供应链风险。
+阅读问题：
+
+- Skill 是否规定了触发条件、步骤、验证方式和停止条件？
+- 它能不能跨项目复用？
+- 它如何避免“每次重新发明流程”？
+
+输出物：
+
+- 一页 skill anatomy note。
+- 给本仓库设计一个 `source-reading` skill 草案。
+
+参考来源：Anthropic Skills、Superpowers。
+
+## B. 文档智能
+
+### B1. PDF parsing 失败在哪里
+
+阅读问题：
+
+- 工具如何处理双栏、公式、表格、页眉页脚、脚注？
+- 输出 Markdown 是否保留章节层级？
+- 转换错误会不会影响后续检索和引用？
+
+输出物：
+
+- 一张 failure table：原始片段、转换结果、错误类型、对 RAG 的影响。
+
+参考来源：MinerU、PDFMathTranslate、BabelDOC。
+
+### B2. Office / HTML / README 怎么进入统一格式
+
+阅读问题：
+
+- 不同文件格式是否都能变成稳定 Markdown？
+- 图片、表格、代码块如何处理？
+- metadata 和正文是否分开保存？
+
+输出物：
+
+- 一个 document ingestion pipeline 图。
+- 一个最小字段设计：source、title、section、content、page、metadata。
+
+参考来源：MarkItDown、MinerU。
+
+## C. RAG 和 memory
+
+### C1. Chunking 怎么影响召回
+
+阅读问题：
+
+- chunk size、overlap、标题路径对召回有什么影响？
+- top-k 增大为什么不一定变好？
+- rerank 解决的是哪一段问题？
+
+输出物：
+
+- 20 条固定问题的召回对比表。
+- 至少 5 条失败案例。
+
+参考来源：Paper QA、Langchain-Chatchat。
+
+### C2. Memory 和日志有什么区别
+
+阅读问题：
+
+- 什么内容应该进入 memory？
+- memory 如何更新、删除和过期？
+- 用户隐私和权限如何处理？
+
+输出物：
+
+- 一张 memory lifecycle 图。
+- 一份“不该写入 memory”的例子清单。
+
+参考来源：Supermemory、Agent memory 项目。
+
+## D. CUDA / ZLUDA / kernel
+
+### D1. 一个 kernel 如何映射数据
+
+阅读问题：
+
+- thread index 如何对应输入数据？
+- block/grid 维度为什么这样设？
+- 相邻线程是否访问相邻地址？
+
+输出物：
+
+- 一张 thread/data mapping 图。
+- 一页 kernel reading note。
+
+参考来源：LeetCUDA。
+
+### D2. 兼容层解决什么，不解决什么
+
+阅读问题：
+
+- CUDA 兼容层拦截的是 API、kernel、runtime 还是 driver 层？
+- 哪些 CUDA 程序容易跑，哪些不容易？
+- 兼容层和原生 CANN / AscendCL 是什么关系？
+
+输出物：
+
+- 一张 CUDA / ZLUDA / CANN 边界图。
+- 一段说明：为什么 ZLUDA 不是“昇腾版 CUDA”。
+
+参考来源：ZLUDA、CANN docs。
+
+### D3. 科学计算项目里的 GPU 代码怎么读
+
+阅读问题：
+
+- 数值方法的更新公式在哪里？
+- CPU 和 GPU 版本如何保持一致？
+- 测试怎么证明 GPU 结果没有偏？
+
+输出物：
+
+- 一页 gprMax GPU 代码阅读笔记。
+- 一个测试覆盖建议。
+
+参考来源：gprMax。
+
+## E. Benchmark 和工程约束
+
+### E1. benchmark scenario 怎么写
+
+阅读问题：
+
+- 输入长度、输出长度、并发、模型、硬件、量化方式是否固定？
+- 记录的是平均值、中位数、P95 还是最好值？
+- 失败请求是否进入结果？
+
+输出物：
+
+- 一个 benchmark scenario JSON。
+- 一张结果表模板。
+
+参考来源：vLLM benchmark 思路、OR-Tools 的约束建模习惯。
+
+### E2. 现实约束怎么进入系统
+
+阅读问题：
+
+- 系统如何处理手续费、容量、延迟、失败重试、资源限制？
+- 哪些约束是硬约束，哪些是可调参数？
+- 约束违反时是拒绝执行、降级还是报警？
+
+输出物：
+
+- 一张 constraints table。
+- 一个“输入 -> 约束 -> 决策 -> 输出”的流程图。
+
+参考来源：vn.py、QuantLib、OR-Tools。
+
+## F. 科研写作和图表
+
+### F1. 一篇论文怎么读成工程问题
+
+阅读问题：
+
+- 论文解决的系统瓶颈是什么？
+- 实验指标是否能复现？
+- 哪个模块能迁移到自己的项目？
+
+输出物：
+
+- 一页 paper note。
+- 一个 reproduction idea。
+
+参考来源：Papers We Love、LLM systems papers。
+
+### F2. 图表如何降低理解成本
+
+阅读问题：
+
+- 这张图解释结构、流程、对比还是实验结果？
+- 有没有把无关视觉元素删掉？
+- 图注是否能独立说明变量和结论？
+
+输出物：
+
+- 一张重画后的架构图或实验表。
+- 一段图注。
+
+参考来源：PaperBanana、OpenPrism。
+
+## G. 安全边界
+
+### G1. 哪些工具不进入教程主线
+
+阅读问题：
+
+- 是否涉及账号注册、绕过限制、激活、抢票、代理中转或 token 管理？
+- 是否会伤害第三方服务或违反平台规则？
+- 是否需要处理敏感数据？
+
+输出物：
+
+- 一份 reject checklist。
+- 三个“不写进教程”的例子和理由。
+
+参考来源：风险隔离类项目、安全/逆向资料。
+
+### G2. 外部内容如何防 prompt injection
+
+阅读问题：
+
+- README、网页、PDF、issue 评论里出现“忽略系统指令”怎么办？
+- 哪些内容只能作为数据，不能作为指令？
+- 测试里如何模拟恶意外部内容？
+
+输出物：
+
+- 一组 prompt injection regression cases。
+- 一份 agent input sanitization checklist。
+
+参考来源：OWASP LLM Top 10、安全资料、Agent tool policy。

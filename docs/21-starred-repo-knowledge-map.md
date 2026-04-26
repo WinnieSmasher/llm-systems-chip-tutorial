@@ -1,122 +1,219 @@
-# 21. 从 100 个 Starred Repos 清洗知识地图
+# 21. 从 Starred Repos 提取知识地图
 
-这页不是“我 star 了什么”的展示页，而是把公开 star 列表当成一批原始资料，清洗成能指导学习和开源贡献的知识地图。
+这一章不展示收藏夹。GitHub star 只是原材料，真正有用的是从里面提取出的学习主题、工程问题和可验证练习。
 
-本次读取范围：GitHub public starred repositories 共 100 个；README 成功读取 93 个，其余 7 个用仓库 metadata、topics、description 补足。公开文档里不保留精确 star 时间戳，因为它对学习路线没有价值。
+我把这些项目按“能学到什么”重新分成七类。每一类都要落到一个输出物：概念图、实验记录、源码阅读笔记、测试清单或贡献计划。
 
 ![Starred repo knowledge map](../assets/image2-star-knowledge-map.svg)
 
-## 清洗规则
+## 1. Agent runtime
 
-| 规则 | 解释 |
-| --- | --- |
-| A 核心学习 | 和 LLM systems、AI infra、chip/CUDA/CANN、agent runtime、科研文档智能直接相关，值得写实验或源码笔记。 |
-| B 可读可练 | 能提供工程经验或领域方法，但不是当前教程主线。 |
-| C 参考资料 | 工具性、资料性或个人效率类，按需要查，不主动深挖。 |
-| D 隔离观察 | 账号、代理、中转、注册、激活、抢票等风险或合规边界较多的项目，不进入教程主线。 |
+这一类项目关心的不是“AI 会不会写代码”，而是 AI coding agent 为什么能持续工作。
 
-## 分类概览
+要学的知识：
 
-| 分类 | 数量 | A 核心 | B 可读 | D 隔离 |
-| --- | ---: | ---: | ---: | ---: |
-| 安全/逆向/移动系统 | 17 | 0 | 8 | 0 |
-| 风险隔离/账号与代理工具 | 16 | 1 | 0 | 15 |
-| 工具/自托管/个人效率 | 14 | 0 | 0 | 0 |
-| 科研写作/文档智能 | 10 | 4 | 6 | 0 |
-| 量化/金融工程 | 4 | 0 | 2 | 0 |
-| 系统性能/芯片/优化 | 5 | 3 | 2 | 0 |
-| 资源索引/待观察 | 6 | 1 | 1 | 0 |
-| Agent/Codex 工作流 | 25 | 10 | 15 | 0 |
-| LLM 应用/AI Infra | 3 | 2 | 1 | 0 |
+- prompt、skill、tool call、MCP server、state file 分别承担什么职责。
+- agent loop 怎么判断下一步是读代码、改代码、跑测试还是停下来。
+- 什么信息应该进入长期记忆，什么信息只应该留在当前任务上下文里。
+- 为什么需要 plan、review、verification，而不是直接让模型一路写。
 
-## 进入教程主线的项目
+代表来源：
 
-这些项目最值得后续写成章节、实验或源码阅读笔记。
+- OpenAI Codex
+- Anthropic Skills
+- Model Context Protocol
+- OpenCode / Archon / Superpowers 一类 agent harness
 
-| Repo | 语言 | 层级 | 可抽取知识 | 下一步 |
-| --- | --- | --- | --- | --- |
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | TypeScript | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [anthropics/skills](https://github.com/anthropics/skills) | Python | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [microsoft/markitdown](https://github.com/microsoft/markitdown) | Python | A 核心学习 | PDF/Markdown/引用/论文工作流/知识抽取 | 纳入主线，做源码/实验笔记 |
-| [Comfy-Org/ComfyUI](https://github.com/Comfy-Org/ComfyUI) | Python | A 核心学习 | RAG、memory、metadata、bot、可视化工作流 | 纳入主线，做源码/实验笔记 |
-| [openai/codex](https://github.com/openai/codex) | Rust | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [opendatalab/MinerU](https://github.com/opendatalab/MinerU) | Python | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [chatchat-space/Langchain-Chatchat](https://github.com/chatchat-space/Langchain-Chatchat) | Python | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [PDFMathTranslate/PDFMathTranslate](https://github.com/PDFMathTranslate/PDFMathTranslate) | Python | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [HKUDS/CLI-Anything](https://github.com/HKUDS/CLI-Anything) | Python | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [bytedance/UI-TARS-desktop](https://github.com/bytedance/UI-TARS-desktop) | TypeScript | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [supermemoryai/supermemory](https://github.com/supermemoryai/supermemory) | TypeScript | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [vosen/ZLUDA](https://github.com/vosen/ZLUDA) | Rust | A 核心学习 | 性能瓶颈、kernel/runtime、硬件生态、benchmark | 纳入主线，做源码/实验笔记 |
-| [xlite-dev/LeetCUDA](https://github.com/xlite-dev/LeetCUDA) | Cuda | A 核心学习 | 性能瓶颈、kernel/runtime、硬件生态、benchmark | 纳入主线，做源码/实验笔记 |
-| [Future-House/paper-qa](https://github.com/Future-House/paper-qa) | Python | A 核心学习 | PDF/Markdown/引用/论文工作流/知识抽取 | 纳入主线，做源码/实验笔记 |
-| [funstory-ai/BabelDOC](https://github.com/funstory-ai/BabelDOC) | Python | A 核心学习 | PDF/Markdown/引用/论文工作流/知识抽取 | 纳入主线，做源码/实验笔记 |
-| [modelcontextprotocol/rust-sdk](https://github.com/modelcontextprotocol/rust-sdk) | Rust | A 核心学习 | 资料入口、工具配置、工程习惯 | 纳入主线，做源码/实验笔记 |
-| [wyf3/llm_related](https://github.com/wyf3/llm_related) | Python | A 核心学习 | RAG、memory、metadata、bot、可视化工作流 | 纳入主线，做源码/实验笔记 |
-| [agentclientprotocol/agent-client-protocol](https://github.com/agentclientprotocol/agent-client-protocol) | Rust | A 核心学习 | agent loop、skill、MCP、状态、工具边界 | 纳入主线，做源码/实验笔记 |
-| [gprMax/gprMax](https://github.com/gprMax/gprMax) | Python | A 核心学习 | 性能瓶颈、kernel/runtime、硬件生态、benchmark | 纳入主线，做源码/实验笔记 |
-| [caomaolufei/AIInfraGuide](https://github.com/caomaolufei/AIInfraGuide) | Astro | A 核心学习 | PDF/Markdown/引用/论文工作流/知识抽取 | 纳入主线，做源码/实验笔记 |
-| [basellm/llm-metadata](https://github.com/basellm/llm-metadata) | TypeScript | A 核心学习 | 识别合规风险和供应链风险 | 纳入主线，做源码/实验笔记 |
+对应章节：
 
-## 可读可练项目
+- [15. RAG 与 Agent 工程](15-rag-agent-engineering.md)
+- [19. 大模型安全与上线运维](19-safety-ops.md)
+- [24. Source Reading Queue](24-source-reading-queue.md)
 
-这些项目不一定全部进入主线，但很适合做专题阅读或工程对照。
+验证方式：
 
-| Repo | 语言 | 层级 | 可抽取知识 | 下一步 |
-| --- | --- | --- | --- | --- |
-| [obra/superpowers](https://github.com/obra/superpowers) | Shell | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [papers-we-love/papers-we-love](https://github.com/papers-we-love/papers-we-love) | Shell | B 可读可练 | PDF/Markdown/引用/论文工作流/知识抽取 | 转化为论文/PDF/知识库处理流程 |
-| [code-yeongyu/oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent) | TypeScript | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents) | Python | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | Rust | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [vnpy/vnpy](https://github.com/vnpy/vnpy) | Python | B 可读可练 | 回测、约束建模、优化、事件驱动系统 | 抽取工程约束/回测思想，不当赚钱策略 |
-| [jivoi/awesome-osint](https://github.com/jivoi/awesome-osint) | Unknown | B 可读可练 | 系统边界、逆向分析、移动端安全、合规意识 | 只作为系统安全阅读，不写攻击型教程 |
-| [iBotPeaches/Apktool](https://github.com/iBotPeaches/Apktool) | Java | B 可读可练 | 系统边界、逆向分析、移动端安全、合规意识 | 只作为系统安全阅读，不写攻击型教程 |
-| [coleam00/Archon](https://github.com/coleam00/Archon) | TypeScript | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [Leey21/awesome-ai-research-writing](https://github.com/Leey21/awesome-ai-research-writing) | Unknown | B 可读可练 | PDF/Markdown/引用/论文工作流/知识抽取 | 转化为论文/PDF/知识库处理流程 |
-| [kaixindelele/ChatPaper](https://github.com/kaixindelele/ChatPaper) | Python | B 可读可练 | PDF/Markdown/引用/论文工作流/知识抽取 | 转化为论文/PDF/知识库处理流程 |
-| [langbot-app/LangBot](https://github.com/langbot-app/LangBot) | Python | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [blader/humanizer](https://github.com/blader/humanizer) | Unknown | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [mytechnotalent/Reverse-Engineering](https://github.com/mytechnotalent/Reverse-Engineering) | Assembly | B 可读可练 | 系统边界、逆向分析、移动端安全、合规意识 | 只作为系统安全阅读，不写攻击型教程 |
-| [google/or-tools](https://github.com/google/or-tools) | C++ | B 可读可练 | 性能瓶颈、kernel/runtime、硬件生态、benchmark | 保留为参考，后续按任务再读 |
-| [qazbnm456/awesome-web-security](https://github.com/qazbnm456/awesome-web-security) | Unknown | B 可读可练 | 系统边界、逆向分析、移动端安全、合规意识 | 只作为系统安全阅读，不写攻击型教程 |
-| [yutiansut/QUANTAXIS](https://github.com/yutiansut/QUANTAXIS) | Python | B 可读可练 | 回测、约束建模、优化、事件驱动系统 | 抽取工程约束/回测思想，不当赚钱策略 |
-| [Piebald-AI/claude-code-system-prompts](https://github.com/Piebald-AI/claude-code-system-prompts) | JavaScript | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [wanshuiyin/Auto-claude-code-research-in-sleep](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep) | Python | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [shaxiu/XianyuAutoAgent](https://github.com/shaxiu/XianyuAutoAgent) | Python | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [lballabio/QuantLib](https://github.com/lballabio/QuantLib) | C++ | B 可读可练 | 性能瓶颈、kernel/runtime、硬件生态、benchmark | 保留为参考，后续按任务再读 |
-| [Bistutu/FluentRead](https://github.com/Bistutu/FluentRead) | TypeScript | B 可读可练 | PDF/Markdown/引用/论文工作流/知识抽取 | 转化为论文/PDF/知识库处理流程 |
-| [op7418/Humanizer-zh](https://github.com/op7418/Humanizer-zh) | Unknown | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
-| [punkpeye/awesome-mcp-clients](https://github.com/punkpeye/awesome-mcp-clients) | Unknown | B 可读可练 | agent loop、skill、MCP、状态、工具边界 | 抽取 agent runtime、skill、MCP、评审流程 |
+- 画出一个 agent 执行任务的状态机。
+- 写一页 tool boundary checklist。
+- 解释为什么外部网页、PDF、README、issue 评论都不能当成用户指令。
 
-## 隔离观察项目
+## 2. 文档智能和资料入口
 
-下面这些项目不适合写进 LLM systems/chip 教程主线。可以用来训练“识别工具风险和合规边界”的能力，但不要把它们包装成学习成果。
+这一类项目解决“资料怎么进入模型”的问题。PDF、Office、网页、README 进模型之前，常常先坏在版面、表格、公式、引用和噪声上。
 
-| Repo | 语言 | 层级 | 可抽取知识 | 下一步 |
-| --- | --- | --- | --- | --- |
-| [7836246/aws-builder-id](https://github.com/7836246/aws-builder-id) | Python | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [7836246/cursor2api](https://github.com/7836246/cursor2api) | TypeScript | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [FakeOAI/tokens](https://github.com/FakeOAI/tokens) | Shell | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [kaitranntt/ccs](https://github.com/kaitranntt/ccs) | TypeScript | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [LainsNL/OutlookRegister](https://github.com/LainsNL/OutlookRegister) | Python | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [LightCountry/TokenPay](https://github.com/LightCountry/TokenPay) | C# | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [Loongphy/codex-auth](https://github.com/Loongphy/codex-auth) | Zig | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [massgravel/Microsoft-Activation-Scripts](https://github.com/massgravel/Microsoft-Activation-Scripts) | Batchfile | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [QuantumNous/new-api](https://github.com/QuantumNous/new-api) | Go | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | Go | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [ryfineZ/codex-session-patcher](https://github.com/ryfineZ/codex-session-patcher) | Python | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [Ttungx/codex_auto_register](https://github.com/Ttungx/codex_auto_register) | HTML | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [WECENG/ticket-purchase](https://github.com/WECENG/ticket-purchase) | Python | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [Wei-Shaw/sub2api](https://github.com/Wei-Shaw/sub2api) | Go | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
-| [yukkcat/gemini-business2api](https://github.com/yukkcat/gemini-business2api) | Python | D 隔离观察 | 识别合规风险和供应链风险 | 不纳入教程主线，只记录合规边界 |
+要学的知识：
 
-## 这批 star 说明了什么
+- PDF parsing、OCR、layout detection、Markdown conversion 的差别。
+- 为什么 LLM-ready Markdown 不是简单的纯文本抽取。
+- 表格、公式、脚注、双栏论文、扫描件分别容易在哪里失败。
+- 文档清洗结果如何进入 RAG、论文笔记和实验记录。
 
-你的兴趣不是单点的“LLM 应用”，而是四条线纠缠在一起：
+代表来源：
 
-1. Agent runtime：Codex、OpenCode、skills、MCP、workflow、memory。
-2. LLM 系统工程：文档解析、RAG、bot、metadata、模型工具链。
-3. 芯片/性能：CUDA、ZLUDA、GPU kernel、优化建模、FDTD/GPR 这类科学计算。
-4. 研究生产力：论文翻译、PDF 清洗、图表生成、academic writing workspace。
+- MinerU
+- MarkItDown
+- PDFMathTranslate
+- BabelDOC
 
-这其实是一个不错的组合：如果后续项目都围绕“让 AI Agent 读懂科学文档、跑实验、解释系统性能”来组织，就比单纯收藏工具更有辨识度。
+对应章节：
+
+- [14. 数据工程与数据清洗](14-data-engineering.md)
+- [15. RAG 与 Agent 工程](15-rag-agent-engineering.md)
+- [20. 论文阅读路线](20-paper-reading-roadmap.md)
+
+验证方式：
+
+- 选同一篇复杂 PDF，用两种工具转 Markdown。
+- 标出公式、表格、图注、引用四类错误。
+- 记录哪些错误会影响 RAG 答案，而哪些只是排版瑕疵。
+
+## 3. RAG、memory 和知识库应用
+
+这一类项目关心模型如何使用外部知识。真正要学的不是“接一个向量库”，而是检索、引用、记忆和权限边界。
+
+要学的知识：
+
+- indexing、chunking、embedding、rerank、generation 为什么要分开评估。
+- memory 是结构化召回，不是无限追加聊天记录。
+- 引用和证据链怎么验证。
+- 找不到证据时如何拒答。
+
+代表来源：
+
+- Paper QA
+- Langchain-Chatchat
+- Supermemory
+- LangBot
+
+对应章节：
+
+- [13. 模型评测与 Benchmark](13-evaluation-benchmark.md)
+- [15. RAG 与 Agent 工程](15-rag-agent-engineering.md)
+- [19. 大模型安全与上线运维](19-safety-ops.md)
+
+验证方式：
+
+- 建 20 条固定问答样例。
+- 人工标注每条答案需要的证据片段。
+- 比较不同 chunk size、top-k、rerank 设置下的失败案例。
+
+## 4. CUDA、ZLUDA 和 kernel 阅读
+
+这一类项目用来补系统性能和硬件生态。不要只背 CUDA、ZLUDA、CANN 的名字，要能读懂一个小 kernel 为什么快或慢。
+
+要学的知识：
+
+- grid、block、thread 和 memory hierarchy。
+- global memory、shared memory、coalesced access。
+- Tensor Cores、GEMM、FlashAttention 这类优化为什么和访存有关。
+- ZLUDA 的定位是 CUDA 兼容层，不是 CANN，也不是通用推理框架。
+
+代表来源：
+
+- LeetCUDA
+- ZLUDA
+- gprMax 的 GPU/FDTD 代码
+
+对应章节：
+
+- [01. CUDA、ZLUDA 与昇腾 CANN](01-hardware-stacks.md)
+- [06. 集成电路与 AI 芯片学习路线](06-chip-domain-roadmap.md)
+- [11. CUDA / CANN API Map](11-cuda-cann-api-map.md)
+- [17. 高级推理优化](17-advanced-inference.md)
+
+验证方式：
+
+- 读一个 CUDA kernel，写清输入、输出、线程映射和访存模式。
+- 解释为什么相邻线程访问相邻地址通常更好。
+- 把 kernel 层面的优化和 vLLM / FlashAttention 的系统优化联系起来。
+
+## 5. 优化建模和工程约束
+
+有些 starred repos 看起来和 LLM 没直接关系，但能训练一种很重要的工程能力：把现实限制写成约束，而不是靠感觉调参数。
+
+要学的知识：
+
+- 约束优化、调度、回测、交易费用、滑点、容量限制这些概念如何进入系统。
+- benchmark 不是跑一次最快结果，而是固定场景、固定指标、可复现对比。
+- 真实系统经常追求“可解释的稳健方案”，不是追求最花哨的架构。
+
+代表来源：
+
+- OR-Tools
+- QuantLib
+- vn.py / QUANTAXIS 这类量化框架
+
+对应章节：
+
+- [10. vLLM Benchmark Guide](10-vllm-benchmark-guide.md)
+- [13. 模型评测与 Benchmark](13-evaluation-benchmark.md)
+- [18. 分布式训练与并行策略](18-distributed-training.md)
+
+验证方式：
+
+- 把一次 vLLM 压测写成固定 scenario。
+- 明确输入长度、输出长度、并发、硬件、模型、量化方式。
+- 记录失败结果，不只记录最好结果。
+
+## 6. 科研写作和图表生产力
+
+这类项目可以提高论文阅读和写作效率，但不能替代证据链。好的工具应该让你更清楚地组织实验、图表和引用，而不是帮你写漂亮空话。
+
+要学的知识：
+
+- 一页论文笔记应该记录 problem、method、experiment、limitations。
+- 图表的作用是减少理解成本，不是装饰。
+- AI writing 工具只适合辅助结构、改写和检查，不适合替代研究判断。
+
+代表来源：
+
+- Papers We Love
+- PaperBanana
+- ChatPaper
+- OpenPrism
+
+对应章节：
+
+- [20. 论文阅读路线](20-paper-reading-roadmap.md)
+- [论文笔记模板](../papers/README.md)
+
+验证方式：
+
+- 选一篇 LLM systems 论文，写一页笔记。
+- 单独复画一张结构图或实验表。
+- 写清这篇论文能迁移到哪个工程实验。
+
+## 7. 安全边界和风险隔离
+
+star 列表里也会混进账号、代理、中转、注册、激活、抢票、逆向、安全资料。这些不能直接写成教程成果，但能提醒你：工程系统需要边界意识。
+
+要学的知识：
+
+- 工具能不能用，不只看技术上能不能跑，还要看授权、合规、风险和维护成本。
+- Agent 读取外部内容时，要防 prompt injection。
+- 逆向和安全资料适合训练系统理解，但公开教程不能写攻击型操作步骤。
+
+代表来源：
+
+- Web security / OSINT / reverse engineering 资料
+- Android reverse engineering 工具
+- 账号、代理、中转类项目作为风险样本
+
+对应章节：
+
+- [19. 大模型安全与上线运维](19-safety-ops.md)
+
+验证方式：
+
+- 写一个“不纳入教程主线”的判断清单。
+- 对每个工具问：是否需要账号、是否绕过限制、是否可能伤害第三方、是否会泄漏数据。
+
+## 最后怎么用这张图
+
+以后再 star 项目时，不要只问“这个项目火不火”。问四个问题：
+
+1. 它能解释哪个系统概念？
+2. 它能不能变成一个可运行实验？
+3. 它能不能帮我读懂一段源码？
+4. 它有没有安全、授权或合规边界？
+
+只有能回答前三个问题，并且第四个问题没有明显风险的项目，才值得进入教程主线。

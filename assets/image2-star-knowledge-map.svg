@@ -1,1 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900"><rect width="1400" height="900" fill="#f8fafc"/><text x="700" y="70" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="42" font-weight="700" fill="#111827">100 GitHub Stars -> Clean Knowledge Map</text><text x="700" y="112" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="20" fill="#475569">filter by transferable knowledge, safety, and practice value</text><defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker></defs><g font-family="Inter,Segoe UI,Arial"><rect x="70" y="190" width="250" height="140" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/><text x="195" y="230" text-anchor="middle" font-size="24" font-weight="700" fill="#1e3a8a">Raw Stars</text><text x="195" y="268" text-anchor="middle" font-size="18" fill="#1e40af">100 public repos</text><text x="195" y="300" text-anchor="middle" font-size="16" fill="#334155">README + metadata</text><rect x="395" y="180" width="260" height="160" rx="10" fill="#ecfccb" stroke="#65a30d" stroke-width="2"/><text x="525" y="220" text-anchor="middle" font-size="24" font-weight="700" fill="#365314">Cleaning Gate</text><text x="525" y="258" text-anchor="middle" font-size="16" fill="#3f6212">transferable?</text><text x="525" y="286" text-anchor="middle" font-size="16" fill="#3f6212">reproducible?</text><text x="525" y="314" text-anchor="middle" font-size="16" fill="#3f6212">safe to publish?</text><path d="M320 260 L395 260" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/><path d="M655 260 C760 260 760 165 865 165" stroke="#475569" stroke-width="4" fill="none" marker-end="url(#arrow)"/><path d="M655 260 C760 260 760 285 865 285" stroke="#475569" stroke-width="4" fill="none" marker-end="url(#arrow)"/><path d="M655 260 C760 260 760 405 865 405" stroke="#475569" stroke-width="4" fill="none" marker-end="url(#arrow)"/><path d="M655 260 C760 260 760 525 865 525" stroke="#475569" stroke-width="4" fill="none" marker-end="url(#arrow)"/><path d="M655 260 C760 260 760 645 865 645" stroke="#475569" stroke-width="4" fill="none" marker-end="url(#arrow)"/><rect x="865" y="110" width="430" height="95" rx="10" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/><text x="1080" y="145" text-anchor="middle" font-size="22" font-weight="700" fill="#7f1d1d">Risk Isolation</text><text x="1080" y="177" text-anchor="middle" font-size="15" fill="#991b1b">accounts, proxies, activation, ticket bots</text><rect x="865" y="230" width="430" height="95" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/><text x="1080" y="265" text-anchor="middle" font-size="22" font-weight="700" fill="#4c1d95">Agent Runtime</text><text x="1080" y="297" text-anchor="middle" font-size="15" fill="#5b21b6">Codex, skills, MCP, state, review loops</text><rect x="865" y="350" width="430" height="95" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/><text x="1080" y="385" text-anchor="middle" font-size="22" font-weight="700" fill="#14532d">LLM Apps + Documents</text><text x="1080" y="417" text-anchor="middle" font-size="15" fill="#166534">RAG, memory, PDF, Markdown, scientific papers</text><rect x="865" y="470" width="430" height="95" rx="10" fill="#ffedd5" stroke="#f97316" stroke-width="2"/><text x="1080" y="505" text-anchor="middle" font-size="22" font-weight="700" fill="#7c2d12">Systems + Chips</text><text x="1080" y="537" text-anchor="middle" font-size="15" fill="#9a3412">CUDA, ZLUDA, kernels, FDTD, optimization</text><rect x="865" y="590" width="430" height="95" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/><text x="1080" y="625" text-anchor="middle" font-size="22" font-weight="700" fill="#0c4a6e">Research Output</text><text x="1080" y="657" text-anchor="middle" font-size="15" fill="#075985">notes, diagrams, labs, contribution targets</text><rect x="110" y="610" width="575" height="145" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/><text x="397" y="650" text-anchor="middle" font-size="24" font-weight="700" fill="#111827">Rule of thumb</text><text x="397" y="688" text-anchor="middle" font-size="17" fill="#334155">A repo enters the tutorial only if it can become</text><text x="397" y="718" text-anchor="middle" font-size="17" fill="#334155">a concept map, a runnable lab, a source note, or a checklist.</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <rect width="1400" height="900" fill="#f8fafc"/>
+  <text x="700" y="70" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="42" font-weight="700" fill="#111827">Star Sources -> Knowledge Extraction -> Tutorial Chapters</text>
+  <text x="700" y="112" text-anchor="middle" font-family="Inter,Segoe UI,Arial" font-size="20" fill="#475569">use starred repos as raw material, not as the public tutorial structure</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <g font-family="Inter,Segoe UI,Arial">
+    <rect x="70" y="190" width="260" height="150" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="200" y="232" text-anchor="middle" font-size="25" font-weight="700" fill="#1e3a8a">Star Sources</text>
+    <text x="200" y="270" text-anchor="middle" font-size="18" fill="#1e40af">public projects</text>
+    <text x="200" y="302" text-anchor="middle" font-size="16" fill="#334155">docs, code, issues, examples</text>
+
+    <line x1="340" y1="265" x2="430" y2="265" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="440" y="170" width="300" height="190" rx="10" fill="#ecfccb" stroke="#65a30d" stroke-width="2"/>
+    <text x="590" y="216" text-anchor="middle" font-size="25" font-weight="700" fill="#365314">Extraction Gate</text>
+    <text x="590" y="256" text-anchor="middle" font-size="17" fill="#3f6212">What concept is reusable?</text>
+    <text x="590" y="286" text-anchor="middle" font-size="17" fill="#3f6212">How can it be verified?</text>
+    <text x="590" y="316" text-anchor="middle" font-size="17" fill="#3f6212">Can it become an exercise?</text>
+
+    <line x1="750" y1="265" x2="840" y2="265" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="860" y="190" width="270" height="150" rx="10" fill="#fae8ff" stroke="#a855f7" stroke-width="2"/>
+    <text x="995" y="232" text-anchor="middle" font-size="25" font-weight="700" fill="#581c87">Knowledge Units</text>
+    <text x="995" y="270" text-anchor="middle" font-size="17" fill="#6b21a8">concept cards</text>
+    <text x="995" y="300" text-anchor="middle" font-size="17" fill="#6b21a8">source-reading questions</text>
+
+    <line x1="1140" y1="265" x2="1225" y2="265" stroke="#475569" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="1240" y="190" width="115" height="150" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+    <text x="1297" y="246" text-anchor="middle" font-size="20" font-weight="700" fill="#7f1d1d">Chapters</text>
+    <text x="1297" y="282" text-anchor="middle" font-size="15" fill="#991b1b">labs</text>
+    <text x="1297" y="310" text-anchor="middle" font-size="15" fill="#991b1b">notes</text>
+
+    <rect x="110" y="475" width="250" height="92" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="235" y="512" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">Agent Runtime</text>
+    <text x="235" y="542" text-anchor="middle" font-size="15" fill="#475569">state, tools, permissions</text>
+
+    <rect x="420" y="475" width="250" height="92" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="545" y="512" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">Document AI</text>
+    <text x="545" y="542" text-anchor="middle" font-size="15" fill="#475569">PDF parsing, OCR, layout</text>
+
+    <rect x="730" y="475" width="250" height="92" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="855" y="512" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">RAG and Memory</text>
+    <text x="855" y="542" text-anchor="middle" font-size="15" fill="#475569">retrieval, eval, forgetting</text>
+
+    <rect x="1040" y="475" width="250" height="92" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="1165" y="512" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">CUDA and Kernel</text>
+    <text x="1165" y="542" text-anchor="middle" font-size="15" fill="#475569">memory access, profiling</text>
+
+    <rect x="265" y="630" width="250" height="92" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="390" y="667" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">Benchmark Design</text>
+    <text x="390" y="697" text-anchor="middle" font-size="15" fill="#475569">metrics, baselines, traps</text>
+
+    <rect x="575" y="630" width="250" height="92" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="700" y="667" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">Research Writing</text>
+    <text x="700" y="697" text-anchor="middle" font-size="15" fill="#475569">claim, evidence, figures</text>
+
+    <rect x="885" y="630" width="250" height="92" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="1010" y="667" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">Safety Boundary</text>
+    <text x="1010" y="697" text-anchor="middle" font-size="15" fill="#475569">sandbox, secrets, review</text>
+
+    <text x="700" y="810" text-anchor="middle" font-size="18" fill="#475569">The public tutorial should show distilled learning paths, not a raw inventory of personal bookmarks.</text>
+  </g>
+</svg>

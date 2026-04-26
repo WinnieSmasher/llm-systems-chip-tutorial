@@ -63,22 +63,38 @@
 - Milvus overview: https://milvus.io/docs/overview.md
 - OWASP Top 10 for LLM Applications: https://genai.owasp.org/llm-top-10/
 
-## Starred Repo Knowledge Map
+## Starred Repo 参考项目来源
 
-这组链接来自公开 GitHub starred repositories 的清洗结果，不按 star 数排序，而按是否能转化成概念图、实验、源码阅读笔记或贡献计划来使用。
+Starred repositories 只作为素材来源，不作为教程目录。这里按知识主题保留少量代表项目，真正要沉淀的是概念、源码阅读问题、实验和练习项目。
+
+### Agent Runtime
 
 - OpenAI Codex: https://github.com/openai/codex
-- Anthropic Skills: https://github.com/anthropics/skills
 - Model Context Protocol Rust SDK: https://github.com/modelcontextprotocol/rust-sdk
 - OpenCode: https://github.com/anomalyco/opencode
-- LeetCUDA: https://github.com/xlite-dev/LeetCUDA
-- ZLUDA: https://github.com/vosen/ZLUDA
-- gprMax: https://github.com/gprMax/gprMax
+
+### 文档智能和科研资料处理
+
 - MarkItDown: https://github.com/microsoft/markitdown
 - MinerU: https://github.com/opendatalab/MinerU
 - Paper QA: https://github.com/Future-House/paper-qa
+
+### RAG、Memory 和本地知识库
+
 - Langchain-Chatchat: https://github.com/chatchat-space/Langchain-Chatchat
+- LlamaIndex: https://github.com/run-llama/llama_index
+- Milvus: https://github.com/milvus-io/milvus
+
+### CUDA、Kernel 和异构硬件
+
+- LeetCUDA: https://github.com/xlite-dev/LeetCUDA
+- ZLUDA: https://github.com/vosen/ZLUDA
+- gprMax: https://github.com/gprMax/gprMax
+
+### 科研写作和图表生产力
+
 - PaperBanana: https://github.com/dwzhu-pku/PaperBanana
+- Manim: https://github.com/ManimCommunity/manim
 
 ## 论文
 
