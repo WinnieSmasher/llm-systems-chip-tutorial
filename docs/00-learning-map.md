@@ -27,6 +27,8 @@
 | 6. 怎么变成应用 | RAG、Agent、tool call、memory 怎么接到系统里 | [15](15-rag-agent-engineering.md), [19](19-safety-ops.md) | 一组 RAG 失败样例 |
 | 7. 怎么持续学习 | 论文、源码、开源项目如何转成练习 | [20](20-paper-reading-roadmap.md), [21](21-knowledge-extraction-map.md), [22](22-eight-week-learning-route.md), [23](23-source-reading-questions.md) | 一页源码阅读笔记 |
 
+开始之前，先读 [00C. 学习协议](00-study-contract.md)。它规定了这份教程的完成标准：每章都要有读前问题、最小产出和自检记录。
+
 ## 第一层：模型从哪里来
 
 先学 Hugging Face Hub 和 Transformers：

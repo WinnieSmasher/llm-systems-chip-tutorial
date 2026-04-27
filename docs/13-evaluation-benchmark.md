@@ -10,6 +10,24 @@
 安全与边界评测：模型在恶意输入下是否会越权、泄露信息或误调用工具
 ```
 
+## 本章怎么学
+
+读前问题：
+
+- leaderboard 和项目自己的 eval 解决的问题有什么不同？
+- 为什么评测要在微调、量化和部署之前就开始设计？
+- must-have、bad-pattern、人工 review 分别适合哪些题？
+
+课后产出：
+
+- 准备一份 `predictions.jsonl`，至少包含 20 条固定样例。
+- 用 `examples/evaluate_predictions.py` 生成一次 `metrics.json`。
+
+自检标准：
+
+- 能解释为什么开放式回答不适合只用 exact match。
+- 能把一次模型改动写成“baseline -> change -> eval result -> conclusion”。
+
 ## 1. 先区分 leaderboard 和项目评测
 
 leaderboard 用来判断一个模型大概强不强。项目评测用来判断你的系统是否能上线。

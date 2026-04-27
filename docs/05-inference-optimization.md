@@ -10,6 +10,24 @@
 
 推理优化的目标不是“玄学加速”，而是把延迟、吞吐、显存和质量放在一起权衡。
 
+## 本章怎么学
+
+读前问题：
+
+- TTFT、TPOT、tokens/s 分别对应推理服务的哪个侧面？
+- prefill 和 decode 为什么要分开看？
+- KV cache 为什么会限制长上下文和高并发？
+
+课后产出：
+
+- 用 `examples/estimate_kv_cache.py` 或 `examples/kv_cache_sweep.py` 做一张显存估算表。
+- 写一个 benchmark scenario，固定模型、输入长度、输出长度、并发和硬件。
+
+自检标准：
+
+- 能解释为什么“单条 prompt 很快”不能代表服务性能好。
+- 能说明量化后为什么必须重新跑评测。
+
 ## 1. Prefill 和 Decode
 
 LLM 推理分两段：

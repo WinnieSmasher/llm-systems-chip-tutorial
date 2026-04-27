@@ -48,6 +48,7 @@
 
 - [00. 学习地图](docs/00-learning-map.md)
 - [00A. 资料来源地图](docs/00-source-map.md)
+- [00C. 学习协议](docs/00-study-contract.md)
 - [术语表](docs/99-glossary.md)
 
 读完后，先写下自己最想补的三件事：模型微调、推理部署、硬件生态、RAG/Agent、源码阅读，选其中一条继续。
@@ -123,6 +124,7 @@ python examples/chunk_text_preview.py --input docs/01-hardware-stacks.md --outpu
 - [00. 学习地图](docs/00-learning-map.md)
 - [00A. 资料来源地图](docs/00-source-map.md)
 - [00B. 自我 Review 记录](docs/00-self-review.md)
+- [00C. 学习协议](docs/00-study-contract.md)
 - [01. CUDA、ZLUDA 与昇腾 CANN](docs/01-hardware-stacks.md)
 - [02. PyTorch、ONNX、safetensors 和 OM](docs/02-model-formats.md)
 - [03. Hugging Face 项目从哪里开始](docs/03-huggingface-workflow.md)

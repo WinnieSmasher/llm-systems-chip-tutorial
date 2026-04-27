@@ -13,6 +13,24 @@
 
 很多项目失败不是因为 LoRA 参数没调好，而是连 baseline、数据质量和评测集都没有。
 
+## 本章怎么学
+
+读前问题：
+
+- 选模型时为什么要先看 model card、license 和 chat template？
+- 为什么最小推理和 baseline 要放在微调之前？
+- `trust_remote_code=True` 到底意味着什么风险？
+
+课后产出：
+
+- 跑通 `examples/minimal_inference.py`，记录模型名、输入、输出和运行环境。
+- 写 20 条小评测样例，至少包含 `must_have` 和 `bad_patterns`。
+
+自检标准：
+
+- 能解释 tokenizer、chat template、model card、baseline 在一个 Hugging Face 项目里的位置。
+- 能说明什么时候应该先清洗数据，而不是直接开训。
+
 ## 1. 选模型时先看四件事
 
 ### License

@@ -10,6 +10,24 @@ CANN 是华为 Ascend NPU 的原生软件栈。
 
 所以“华为昇腾是不是 ZLUDA”这个问题，答案是：不是。它们甚至不是同一层东西。
 
+## 本章怎么学
+
+读前问题：
+
+- CUDA、ZLUDA、CANN 分别解决哪一层问题？
+- 为什么 ONNX 和 `.om` 不能和 CUDA 放在同一类里比较？
+- 一个 PyTorch 矩阵乘法到底会落到哪个硬件后端？
+
+课后产出：
+
+- 画一张 `PyTorch -> runtime -> kernel/operator -> hardware` 的边界图。
+- 写清 CUDA、ZLUDA、CANN、ONNX、OM 五个词的关系。
+
+自检标准：
+
+- 能解释为什么“昇腾是不是 ZLUDA”这个问法本身就混了层级。
+- 能说出 CUDA kernel 和 Ascend C custom operator 的对应关系和差异。
+
 ## 1. 先从一段 PyTorch 代码看底层路线
 
 你写：
